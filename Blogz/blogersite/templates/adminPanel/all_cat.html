@@ -1,0 +1,28 @@
+
+{% extends "adminPanel/base.html" %}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+{% block main_block %}
+{% load staticfiles %}
+<body>
+	<a href = "/blogersite/adminPanel/new_cat/">Add New Category</a>
+	<br>
+	<table border="2">
+		<th>Category name</th>
+		<th colspan="3">Options</th>
+		{%  for cat in allCategories  %}
+		<tr>
+			<td>{{cat.cat_name}}</td>
+			<td><a href = "/blogersite/{{cat.id}}">Show more</a></td>
+			<td><a href= "/blogersite/adminPanel/{{cat.id}}/edit">Edit</a></td>
+			<td><a href= "/blogersite/adminPanel/{{cat.id}}/delete">Delete</a></td>
+		</tr>
+		{%  endfor  %}
+	</table>
+</body>
+{% endblock %}
+</html>

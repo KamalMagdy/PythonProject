@@ -56,7 +56,7 @@ ROOT_URLCONF = 'Blogz.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, '/blogersite/templates/admin')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

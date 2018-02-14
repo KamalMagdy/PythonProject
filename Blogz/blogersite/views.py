@@ -40,9 +40,9 @@ def update(request,usr_id):
         usr_form=UserForm(request.POST,instance=usr)
         if usr_form.is_valid():
             usr_form.save()
-            return HttpResponseRedirect("all_users.html")
+            return HttpResponseRedirect("/blogersite/allusers")
 
-    return render(request,"new.html",{"form":UserForm})
+    return render(request,"new.html",{"form":usr_form})
 
 
 
@@ -66,7 +66,7 @@ def addnew(request):
         usr_form=UserForm(request.POST)
         if usr_form.is_valid():
             usr_form.save()
-            return  HttpResponseRedirect()
+            return  HttpResponseRedirect("/blogersite/allusers")
     return render(request,"new.html",{"form":usr_form})
 
 

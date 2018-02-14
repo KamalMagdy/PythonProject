@@ -16,9 +16,11 @@
   </button>
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav">
+    {% if usr.is_superuser ==1 %}
       <li class="nav-item active">
         <a style="color: white" class="nav-link" href="/admin">Admin <span class="sr-only">(current)</span></a>
       </li>
+      {% endif %}
       <li class="nav-item">
         <a style="color: white" class="nav-link" href="#">Login</a>
       </li>

@@ -56,7 +56,7 @@ ROOT_URLCONF = 'Blogz.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR,'blogersite/Templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -104,3 +104,5 @@ USE_TZ = True
 
 # STATIC_URL = '/static/'
 STATIC_URL=os.path.join(BASE_DIR,"blogersite/static/")
+LOGIN_URL = '/login'
+# REGIESTER_URL='/register'

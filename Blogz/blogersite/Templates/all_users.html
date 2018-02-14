@@ -1,0 +1,45 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="{% static 'bootstrap/bootstrap.min.css' %}">
+	<title> Users Page</title>
+</head>
+<body>
+<a href="/blogersite/addnew"><button class="btn btn-primary" >Add New User</button></a>
+<table border="1px" >
+<br/>
+<th>Full Name</th>
+<th>Admin</th>
+<th>Staff</th>
+<th>Id</th>
+
+<th>Users Details</th>
+    <th>Operations</th>
+{% for usr in all_usrs %}
+<tr>
+	<td>{{usr.username}}</td>
+    <td>{{usr.is_superuser_}}</td>
+    <td>{{usr.is_staff}}</td>
+    <td>{{usr.id}}</td>
+<td>{% if usr.is_superuser == 0 %}</td>
+            {% if usr.is_active == 1 %}
+    <td><a href="/blogersite/block/{{usr.id}}"><button class="btn btn-danger" >Block</button></a></td>
+              {% else%}
+    <td><a href="/blogersite/unblock/{{usr.id}}"><button class="btn btn-info" >unBlock</button></a></td>
+             {% endif %}
+    <td><a href="/blogersite/update/{{usr.id}}"><button class="btn btn-warning">Update</button></a></td>
+
+    <td><a href="/blogersite/delete/{{usr.id}}"><button class="btn btn-danger" >Delete</button></a></td>
+
+    <td><a href="/blogersite/promote/{{usr.id}}"><button class="btn btn-danger" >Promote</button></a></td>
+       {% endif %}
+</tr>
+{% endfor %}
+
+</table>
+
+<script src="{% static 'bootstrap/jquery.min.js'%}"></script>
+<script src="{% static 'bootstrap/bootstrap.bundle.min.js'%}"></script>
+</body>
+</html>

@@ -122,7 +122,7 @@ def logged_in_only(request):
 
 
 def managerPanel(request):
-    return render(request, "adminPanel/manager.html")
+    return render(request, "adminPanel/Dashboard.html")
 
 def allCategories(request):
     all_categories = Categories.objects.all()

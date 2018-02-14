@@ -6,7 +6,7 @@ from . import views
 # from django.contrib.auth import User
 
 urlpatterns = [
-    url(r'^manager/$', views.managerPanel),
+    url(r'^Dashboard/$', views.managerPanel),
 
     url(r'^allCategories/$', views.allCategories),
     url(r'^adminPanel/(?P<cat_id>[0-9]+)/show/$', views.getCategory),

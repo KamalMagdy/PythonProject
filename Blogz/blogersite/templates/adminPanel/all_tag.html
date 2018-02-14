@@ -6,9 +6,9 @@
 <head>
 	<title></title>
 </head>
-{% block main_block %}
-<!--{% load staticfiles %}-->
 <body>
+{% block main_block %}
+
 	<a href = "/blogersite/adminPanel/new_tag/">Add New Tag Name</a>
 	<br>
 	<table border="2">
@@ -22,6 +22,7 @@
 		</tr>
 		{%  endfor  %}
 	</table>
-</body>
 {% endblock %}
+
+</body>
 </html>

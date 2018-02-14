@@ -1,14 +1,12 @@
-
-{% extends "adminPanel/base.html" %}
+{% extends "adminPanel/Dashboard.html" %}
 
 <!DOCTYPE html>
 <html>
 <head>
-	<title></title>
 </head>
-{% block main_block %}
-<!--{% load staticfiles %}-->
 <body>
+{% block main_block %}
+
 	<a href = "/blogersite/adminPanel/new_cat/">Add New Category</a>
 	<br>
 	<table border="2">
@@ -23,6 +21,7 @@
 		</tr>
 		{%  endfor  %}
 	</table>
-</body>
 {% endblock %}
+
+</body>
 </html>

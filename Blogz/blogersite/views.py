@@ -19,7 +19,8 @@ def all_users(request):
     return  render(request,"adminPanel/all_users.html",{"all_usrs":all_usr})
 
 def home(request):
-    return render(request,"adminPanel/home.html")
+    context={'allCategories':Categories.objects.all()}
+    return render(request,"adminPanel/home.html",context)
 
 def admin(request):
     return render(request,"adminPanel/manager.html")

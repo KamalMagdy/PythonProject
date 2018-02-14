@@ -3,8 +3,15 @@
 <head>
     <meta charset="UTF-8">
 </head>
+{% include "adminPanel/header.html" %}
+
+
 <body>
+{% include "adminPanel/nav.html" %}
     {% block main_block %}
+
     {% endblock %}
 </body>
+{% include "adminPanel/footer.html" %}
+
 </html>

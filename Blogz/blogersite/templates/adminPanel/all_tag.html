@@ -1,0 +1,27 @@
+
+{% extends "adminPanel/base.html" %}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+{% block main_block %}
+<!--{% load staticfiles %}-->
+<body>
+	<a href = "/blogersite/adminPanel/new_tag/">Add New Tag Name</a>
+	<br>
+	<table border="2">
+		<th>Tag Name</th>
+		<th colspan="2">Options</th>
+		{%  for tag in allTags  %}
+		<tr>
+			<td>{{tag.tag_name}}</td>
+			<td><a href= "/blogersite/adminPanel/{{tag.id}}/editT">Edit</a></td>
+			<td><a href= "/blogersite/adminPanel/{{tag.id}}/deleteT">Delete</a></td>
+		</tr>
+		{%  endfor  %}
+	</table>
+</body>
+{% endblock %}
+</html>

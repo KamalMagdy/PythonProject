@@ -1,0 +1,16 @@
+{% extends "adminPanel/base.html" %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+    {% block main_block %}
+    <h1> Edit Forbidden Word </h1>
+    <form method="POST">{% csrf_token %}
+        {{ form.as_p }}
+    <button type="submit" >Save</button>
+    {% endblock %}
+</body>
+</html>

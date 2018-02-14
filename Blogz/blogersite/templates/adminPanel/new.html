@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title> Add New User</title>
+</head>
+<body>
+
+<form method="POST" > {% csrf_token%}
+    {{form.as_p}}
+   <a href="blogersite/allusers"><button type="submit"> Submit</button></a> 
+    <button type="reset">Reset</button>
+
+</form>
+<a href="/blogersite/allusers"><button>Home</button></a>
+
+
+
+</body>
+</html>

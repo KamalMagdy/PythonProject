@@ -16,19 +16,26 @@
   </button>
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav">
+        {% if user.is_authenticated %}
+            {% if user.is_superuser == 1 %}
       <li class="nav-item active">
         <a style="color: white" class="nav-link" href="adminPanel/admin">Admin <span class="sr-only">(current)</span></a>
       </li>
+               {% endif %}
+            <li class="nav-item">
+       <a style="color: white"  class="nav-link" href="/blogersite/logout">Logout</a>
+      </li>
+
+        {% else %}
       <li class="nav-item">
         <a style="color: white" class="nav-link" href="/blogersite/login">Login</a>
       </li>
-      <li class="nav-item">
-        <span  style="color: white" class="nav-link" href="#">Logout</span>
-      </li>
+
+
        <li class="nav-item">
         <a style="color: white"  class="nav-link" href="/blogersite/register">Register</a>
       </li>
-
+{% endif %}
 	<li style="margin-left: 1200px">
 		<form class="form-inline">
     <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">

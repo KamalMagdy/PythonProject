@@ -45,7 +45,7 @@ urlpatterns = [
     url(r'^update/(?P<usr_id>[0-9]+$)', views.update),
     url(r'^delete/(?P<usr_id>[0-9]+$)', views.delete),
     url(r'^addnew/', views.addnew),
-    # url(r'^register', views.register),
+    url(r'^logout', views.logout),
     # url(r'^home', views.home),
 
 ]

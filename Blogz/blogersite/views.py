@@ -1,9 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render ,render_to_response
 from django.http import HttpResponse,HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import authenticate,login
+from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.models import User
 from.forms import UserForm, RegUserForm
+from django.contrib.auth.forms import UserCreationForm
 from .forms import CategoryForm
 from .models import Categories
 from .forms import ForbiddenForm
@@ -88,8 +89,17 @@ def register(request):
         usr_form=RegUserForm(request.POST)
         if usr_form.is_valid():
             usr_form.save()
+
+            # usr=User.objects.get()
+            # usr.id.authenticate(username=usr.username,password=user.password)
+
             return HttpResponseRedirect("/blogersite/home")
     return render(request, "adminPanel/register.html",{"form":usr_form})
+
+def loguot(request):
+    if request.user.is_authenticated():
+        logout(request)
+        return HttpResponseRedirect("/blogersite/home")
 
 def login_form(request):
     if request.method == 'POST':

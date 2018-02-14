@@ -1,6 +1,6 @@
 {% extends "adminPanel/base.html" %}
 <h1>welcome to home</h1>
-<div>
+<div class="w3-sidebar w3-bar-block">
 {% block main_block %}
 <!--{% load staticfiles %}-->
 
@@ -11,9 +11,39 @@
 			<a href = "#{{cat.id}}"><button>Subscribe</button></a><br>
         {% endfor %}
         </div>
-{% endblock %}
+    </div>
+    <div>
+
+	<br>
+
+	<br>
+
+<div>
+    {%  for posts in allPosts  %}
+
+        <div>
+         <h6> {{ posts.post_cat }}</h6>
+        <h3><a href = "#">{{posts.post_title}}</a></h3>
+        <h5>{{ posts.post_tags }}</h5>
+        <img src="{{ posts.posts.post_image }}"/>
+
+             <p> {{ posts.post_content }}</p>
+
+         <p>{{ posts.post_date }}</p>
+
+        </div>
+
+
+
+		{%  endfor  %}
 
 </div>
+
+
+    </div>
+{% endblock %}
+
+
 
 </body>
 </html>

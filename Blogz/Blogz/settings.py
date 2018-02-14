@@ -56,7 +56,7 @@ ROOT_URLCONF = 'Blogz.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR,'blogersite/Templates')],
+        'DIRS': [os.path.join(BASE_DIR, '/blogersite/templates/admin')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -78,9 +78,12 @@ WSGI_APPLICATION = 'Blogz.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME':'blogs',
-        'USER':'root',
-        'PASSWORD':'Mino1994',
+        'NAME': 'djangoBlogdb',
+        'USER': 'root',
+        'PASSWORD': '@123456789',
+        'HOST': 'localhost',
+        'PORT': '3306',
+
     }
 }
 
@@ -102,7 +105,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
-# STATIC_URL = '/static/'
 STATIC_URL=os.path.join(BASE_DIR,"blogersite/static/")
 LOGIN_URL = '/login'
 # REGIESTER_URL='/register'
+MEDIA_ROOT= os.path.join(BASE_DIR, 'static/')
+MEDIA_URL= "static/"

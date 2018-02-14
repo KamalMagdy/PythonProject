@@ -1,0 +1,28 @@
+
+{% extends "adminPanel/base.html" %}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+{% block main_block %}
+<!--{% load staticfiles %}-->
+<body>
+	<a href = "/blogersite/adminPanel/new_post/">Add New Post</a>
+	<br>
+	<table border="2">
+		<th>Post title</th>
+		<th colspan="3">Options</th>
+		{%  for posts in allPosts  %}
+		<tr>
+			<td>{{posts.post_title}}</td>
+			<td><a href = "/blogersite/adminPanel/{{posts.id}}/showP">Show more</a></td>
+			<td><a href= "/blogersite/adminPanel/{{posts.id}}/editP">Edit</a></td>
+			<td><a href= "/blogersite/adminPanel/{{posts.id}}/deleteP">Delete</a></td>
+		</tr>
+		{%  endfor  %}
+	</table>
+</body>
+{% endblock %}
+</html>

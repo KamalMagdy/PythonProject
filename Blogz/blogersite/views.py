@@ -19,7 +19,7 @@ def all_users(request):
     return  render(request,"adminPanel/all_users.html",{"all_usrs":all_usr})
 
 def home(request):
-    context={'allCategories':Categories.objects.all(),'allPosts':Posts.objects.all().order_by('post_date')[:5]}
+    context={'allCategories':Categories.objects.all(),'allPosts':Posts.objects.all().order_by('-post_date')[:5]}
     return render(request,"adminPanel/home.html",context)
 
 def admin(request):

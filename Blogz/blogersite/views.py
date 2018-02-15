@@ -12,7 +12,8 @@ from .forms import PostForm
 from .models import Posts
 from .forms import TagForm
 from .models import TagNames
-
+import re
+from django.db.models import Q
 
 def all_users(request):
     all_usr=User.objects.all()
@@ -296,5 +297,11 @@ def post_edit(request, post_id):
     return render(request, 'adminPanel/edit_post.html', {'form': form})
 
 
+
 def logout(request):
     pass
+
+def search(request):
+    found_entries = Posts.objects.filter(post_title__icontains=request.GET['query']).order_by('-post_date')
+    context = {"allPosts": found_entries}
+    return render(request, "adminPanel/home.html", context)

@@ -1,14 +1,14 @@
+{% load static %}
 <h1>{{allPosts.post_title}}</h1>
 <b>Content: </b> {{allPosts.post_content}}<br>
 <b>Date: </b> {{allPosts.post_date}}<br>
-{% load staticfiles %}
+
 <b>Image: </b> {{allPosts.post_image}}<br>
 <b>Category: </b> {{allPosts.post_cat}}<br>
 <b>Tags: </b> {{allPosts.post_tag}}<br>
 
 
-
-
+<img src="{% static ""%}images/{{allPosts.post_image}}" alt="">
 
 <br />
 <a href = '/blogersite/allPosts/'><< Back to home </a>

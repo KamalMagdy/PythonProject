@@ -19,7 +19,7 @@
 {% for usr in all_usrs %}
 <tr>
 	<td>{{usr.username}}</td>
-    <td>{{usr.is_superuser_}}</td>
+    <td>{{usr.is_superuser}}</td>
     <td>{{usr.is_staff}}</td>
     <td>{{usr.id}}</td>
 <td>{% if usr.is_superuser == 0 %}</td>

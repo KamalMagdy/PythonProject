@@ -26,10 +26,10 @@ urlpatterns = [
     url(r'^adminPanel/(?P<tag_id>[0-9]+)/deleteT/$', views.tag_delete),
 
     url(r'^allPosts/$', views.allPosts),
-    url(r'^adminPanel/(?P<post_id>[0-9]+)/showP/$', views.getPosts),
+    url(r'^adminPanel/(?P<post_id>[0-9]+)/showP$', views.getPosts),
     url(r'^adminPanel/new_post/$', views.newPost),
-    url(r'^adminPanel/(?P<post_id>[0-9]+)/editP/$', views.post_edit),
-    url(r'^adminPanel/(?P<post_id>[0-9]+)/deleteP/$', views.post_delete),
+    url(r'^adminPanel/(?P<post_id>[0-9]+)/editP$', views.post_edit),
+    url(r'^adminPanel/(?P<post_id>[0-9]+)/deleteP$', views.post_delete),
 
     url(r'^admin', views.admin),
     url(r'^login$', views.login_form),
@@ -45,7 +45,7 @@ urlpatterns = [
     url(r'^update/(?P<usr_id>[0-9]+$)', views.update),
     url(r'^delete/(?P<usr_id>[0-9]+$)', views.delete),
     url(r'^addnew/', views.addnew),
-    # url(r'^register', views.register),
+    url(r'^logout', views.logout),
     # url(r'^home', views.home),
 
 ]

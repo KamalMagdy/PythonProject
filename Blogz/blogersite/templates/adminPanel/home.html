@@ -3,22 +3,25 @@
 <div class="w3-sidebar w3-bar-block">
 {% block main_block %}
 <!--{% load staticfiles %}-->
+<div class="row">
 
-        <h3>Categories</h3>
-        <div>
+<!-- Sidebar -->
+<div class="w3-sidebar w3-light-grey w3-bar-block col-4" style="width:25%">
+  <h3 class="w3-bar-item">Categories</h3>
+  <div>
             {% for cat in allCategories%}
-			{{cat.cat_name}}
+			<a href = "#">{{cat.cat_name}}</a>
 			<a href = "#{{cat.id}}"><button>Subscribe</button></a><br>
         {% endfor %}
         </div>
-    </div>
-    <div>
+</div>
+
 
 	<br>
 
 	<br>
 
-<div>
+<div class="col-8">
     {%  for posts in allPosts  %}
 
         <div>
@@ -45,6 +48,8 @@
 
 
 
+
+</div>
 
 
 </body>

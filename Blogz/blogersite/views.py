@@ -294,3 +294,7 @@ def post_edit(request, post_id):
     else:
         form = PostForm(instance=post)
     return render(request, 'adminPanel/edit_post.html', {'form': form})
+
+
+def logout(request):
+    pass

@@ -47,5 +47,6 @@ urlpatterns = [
     url(r'^addnew/', views.addnew),
     # url(r'^register', views.register),
     # url(r'^home', views.home),
+url(r'^logout$', views.logout)
 
 ]

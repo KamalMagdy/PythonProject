@@ -11,20 +11,17 @@
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport'/>
     <meta name="viewport" content="width=device-width"/>
 
-
     <!-- Bootstrap core CSS     -->
     <link href="{% static 'assets/css/bootstrap.min.css' %}" rel="stylesheet"/>
+    <link href="{% static 'assets/css/bootstrap.css' %}" rel="stylesheet"/>
+
 
     <!-- Animation library for notifications   -->
     <link href="{% static 'assets/css/animate.min.css' %}" rel="stylesheet"/>
 
     <!--  Light Bootstrap Table core CSS    -->
     <link href="{% static 'assets/css/light-bootstrap-dashboard.css?v=1.4.0' %}" rel="stylesheet"/>
-
-
-    <!--  CSS for Demo Purpose, don't include it in your project     -->
-    <link href="{% static 'assets/css/demo.css' %}" rel="stylesheet"/>
-
+    <link href="{% static 'assets/bootstrap/' %}" rel="stylesheet"/>
 
     <!--     Fonts and icons     -->
     <link href="{% static 'http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css' %}"
@@ -37,7 +34,7 @@
 <body>
 
 <div class="wrapper">
-    <div class="sidebar" data-color="azure">
+    <div class="sidebar" data-color="blue">
 
         <!--
 
@@ -102,7 +99,7 @@
     </div>
     <div class="main-panel">
         <nav class="navbar navbar-default navbar-fixed">
-            <div class="container-fluid">
+            <div class="container">
                 <div class="collapse navbar-collapse">
 
                     <ul class="nav navbar-nav navbar-right">
@@ -116,20 +113,64 @@
                 </div>
             </div>
         </nav>
-{% block main_block %}
-
-
-{% endblock %}
-
-        <footer class="footer">
-            <div class="container-fluid">
-                <p class="copyright pull-center"> Copyrights 2018 </p>
+        <br>
+        <div class="container">
+            {% block main_block %}
+            <div class="card border-primary md-3" style="max-width: 18rem;">
+                <a href="/blogersite/allusers/">
+                    <div class="card-header"> Users</div>
+                    <div class="card-body text-primary">
+                        <p class="card-text">Show all users and Admin/s. Promote, update, block and unblock
+                            users.</p>
+                    </div>
+                </a>
             </div>
-        </footer>
+            <div class="card border-success md-3" style="max-width: 18rem;">
+                <a href="/blogersite/allPosts/">
+                    <div class="card-header">Posts</div>
+                    <div class="card-body text-success">
+                        <p class="card-text"> CRUD operations on Posts</p>
+                    </div>
+                </a>
+            </div>
+            <div class="card border-danger md-3" style="max-width: 18rem;">
+                <a href="/blogersite/allTags/">
+                    <div class="card-header">Tag Names</div>
+                    <div class="card-body text-danger">
+                        <p class="card-text"> CRUD operations on TagNames.</p>
+                    </div>
+                </a>
+            </div>
+            <div class="card border-warning md-3" style="max-width: 18rem;">
+                <a href="/blogersite/allCategories/">
+                    <div class="card-header">Categories</div>
+                    <div class="card-body text-warning">
+                        <p class="card-text"> CRUD operations on Categories.</p>
+                    </div>
+                </a>
+            </div>
+            <div class="card border-info md-3" style="max-width: 18rem;">
+                <a href="/blogersite/allForbidden/">
+                    <div class="card-header">Forbidden Words</div>
+                    <div class="card-body text-info">
+                        <p class="card-text"> CRUD operations on Forbidden Words.</p>
+                    </div>
+                </a>
 
+            </div>
+
+        </div>
     </div>
+    <footer class="footer">
+        <div class="container-fluid">
+            <p class="copyright pull-center"> Copyrights 2018 </p>
+        </div>
+    </footer>
+
+</div>
 </div>
 
+{% endblock %}
 
 </body>
 
@@ -144,10 +185,7 @@
 <!--<script src="/blogersite/static/assets/js/bootstrap-notify.js"></script>-->
 
 <!--&lt;!&ndash; Light Bootstrap Table Core javascript and methods for Demo purpose &ndash;&gt;-->
-<!--<script src="/blogersite/static/assets/js/light-bootstrap-dashboard.js?v=1.4.0"></script>-->
-
-<!--&lt;!&ndash; Light Bootstrap Table DEMO methods, don't include it in your project! &ndash;&gt;-->
-<!--<script src="/blogersite/static/assets/js/demo.js"></script>-->
+<script src="assets/js/light-bootstrap-dashboard.js"></script>
 
 <script type="text/javascript">
     	$(document).ready(function(){
@@ -164,6 +202,9 @@
             });
 
     	});
+
+
+
 
 </script>
 

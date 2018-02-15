@@ -1,9 +1,12 @@
+{% extends "adminPanel/Dashboard.html" %}
+
 <!DOCTYPE html>
 <html>
 <head>
 	<title> Add New User</title>
 </head>
 <body>
+    {% block main_block %}
 
 <form method="POST" > {% csrf_token%}
     {{form.as_p}}
@@ -14,6 +17,6 @@
 <a href="/blogersite/allusers"><button>Home</button></a>
 
 
-
+{% endblock %}
 </body>
 </html>

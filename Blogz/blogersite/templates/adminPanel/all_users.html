@@ -1,4 +1,5 @@
 
+{% extends "adminPanel/Dashboard.html" %}
 {% load static %}
 <!DOCTYPE html>
 <html>
@@ -8,8 +9,10 @@
 	<title> Users Page</title>
 </head>
 <body>
+{% block main_block %}
+
 <a href="/blogersite/addnew"><button class="btn btn-primary" >Add New User</button></a>
-<table border="1px" >
+<table class="table-responsive table table-striped table-hover" >
 <br/>
 <th>Full Name</th>
 <th>Admin</th>
@@ -17,7 +20,7 @@
 <th>Id</th>
 
 <th>Users Details</th>
-    <th>Operations</th>
+    <th colspan="5">Operations</th>
 {% for usr in all_usrs %}
 <tr>
 	<td>{{usr.username}}</td>
@@ -34,7 +37,7 @@
 
     <td><a href="/blogersite/delete/{{usr.id}}"><button class="btn btn-danger" >Delete</button></a></td>
 
-    <td><a href="/blogersite/promote/{{usr.id}}"><button class="btn btn-danger" >Promote</button></a></td>
+    <td><a href="/blogersite/promote/{{usr.id}}"><button class="btn btn-success" >Promote</button></a></td>
        {% endif %}
 </tr>
 {% endfor %}
@@ -43,5 +46,7 @@
 
 <script src="{% static 'bootstrap/jquery.min.js'%}"></script>
 <script src="{% static 'bootstrap/bootstrap.bundle.min.js'%}"></script>
+{% endblock %}
+
 </body>
 </html>

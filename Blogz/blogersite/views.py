@@ -309,11 +309,11 @@ def post_edit(request, post_id):
     return render(request, 'adminPanel/edit_post.html', {'form': form})
 
 
-def Post(request):
-    return render(request,'PostPage.html')
+def post(request):
+    return render(request,'user/PostPage.html')
 
 def get_comment(request):
-    Post(request)
+    post(request)
     
     if request.method=="POST":
         newComment=request.POST.get('comment',None)
@@ -326,7 +326,7 @@ def get_comment(request):
         
             
 
-    return HttpResponseRedirect('/blogersite/templates/user/PostPage.html')
+    return render(request,'user/PostPage.html')
     
 
 

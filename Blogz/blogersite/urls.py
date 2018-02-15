@@ -48,7 +48,7 @@ urlpatterns = [
     url(r'^logout', views.logout),
     # url(r'^home', views.home),
 
-    url(r'^user/PostPage$',views.get_comment),
+    url(r'^PostPage$',views.get_comment),
 
 
 

@@ -1,4 +1,4 @@
-from django.shortcuts import render ,render_to_response
+from django.shortcuts import render
 from django.http import HttpResponse,HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate,login,logout
@@ -36,7 +36,7 @@ def block(request,usr_id):
     us.save()
     all_usr = User.objects.all()
     return render(request,"adminPanel/all_users.html",{"all_usrs":all_usr})
-    # return HttpResponseRedirect("allusers")
+
 
 def unblock(request,usr_id):
     us=User.objects.get(id=usr_id)
@@ -44,7 +44,7 @@ def unblock(request,usr_id):
     us.save()
     all_usr = User.objects.all()
     return render(request,"adminPanel/all_users.html",{"all_usrs":all_usr})
-    # return HttpResponseRedirect("allusers")
+
 
 def update(request,usr_id):
     usr=User.objects.get(id=usr_id)
@@ -93,17 +93,17 @@ def register(request):
     return render(request, "adminPanel/register.html",{"form":usr_form})
 
 def logout(request):
-    # if request.user.is_authenticated:
-    logout(request)
-    return HttpResponseRedirect("/blogersite/")
+    if request.user.is_authenticated():
+        logout(request)
+        return HttpResponseRedirect("/blogersite/home")
 
 # def logout(request,usr_id):
 #     try:
-#         del request.session['usr_id']
-#         logout(request)
+#        del request.session['usr_id']
+#        logout(request)
 #     except KeyError:
 #         pass
-#     return HttpResponseRedirect("/blogersite/home")
+#         return HttpResponseRedirect("/blogersite/home")
 
 def login_form(request):
     if request.method == 'POST':
@@ -300,7 +300,7 @@ def post_edit(request, post_id):
     post = Posts.objects.get(id=post_id)
 
     if request.method == "POST":
-        form = PostForm(request.POST, instance=post)
+        form = PostForm(request.POST,request.FILES)
         if form.is_valid():
             form.save()
         return HttpResponseRedirect('/blogersite/allPosts/')

@@ -6,21 +6,31 @@
 	<title> Users Page</title>
 </head>
 <body>
-<a href="/blogersite/addnew"><button class="btn btn-primary" >Add New User</button></a>
-<table border="1px" >
-<br/>
+
+<div class="table-responsive">
+<table  class="table  table-highlight" >
+<thead class="thead-dark">
+
 <th>Full Name</th>
 <th>Admin</th>
-<th>Staff</th>
-<th>Id</th>
 
-<th>Users Details</th>
-    <th>Operations</th>
+<th>Id</th>
+    <th colspan="5">Operations On User</th>
+</thead>
+<tbody>
 {% for usr in all_usrs %}
-<tr>
+
+<tr
+
+{% if usr.is_superuser %}
+      class="bg-danger"
+      colspan="5"
+     {% else %}
+{#        class="bg-primary"#}
+    {% endif %}
+>
 	<td>{{usr.username}}</td>
     <td>{{usr.is_superuser}}</td>
-    <td>{{usr.is_staff}}</td>
     <td>{{usr.id}}</td>
 <td>{% if usr.is_superuser == 0 %}</td>
             {% if usr.is_active == 1 %}
@@ -37,7 +47,14 @@
 </tr>
 {% endfor %}
 
+
+
+
+</tbody>
 </table>
+</div>
+<div ><a href="/blogersite/addnew"><button class="btn btn-primary" >Add New User</button></a></div>
+
 
 <script src="{% static 'bootstrap/jquery.min.js'%}"></script>
 <script src="{% static 'bootstrap/bootstrap.bundle.min.js'%}"></script>

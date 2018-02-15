@@ -1,125 +1,4 @@
 {% load static %}
-<!DOCTYPE html>
-<html>
-<head>
-	<link rel="stylesheet" href="{% static 'bootstrap/bootstrap.min.css' %}">
-	<title> Register</title>
-</head>
-<body>
-<h1>Register here</h1>
-
-
-
-{#<div class="form-group col-md-4 col-lg-6 col-sm-12">#}
-{#    {{ form.username.errors }}#}
-{#    <label for="{{ form.username.id_for_label }}">UserName:</label>#}
-{#    {{ form.username }}#}
-{#</div>#}
-
-
-{#<form >{% csrf_token %}#}
-{##}
-{#	<div class="row ">#}
-{##}
-{#	<div class="form-group col-md-4  col-sm-12">#}
-{#		<label>Name: </label>#}
-{#		<input name="username" type="text" class="form-control" placeholder="please enter your name" />#}
-{#	</div>#}
-{##}
-{#	<div class="form-group col-md-4  col-sm-12 ">#}
-{#		<label>Email </label>#}
-{#		<input name="email" type="text" class="form-control" placeholder="please enter your name" />#}
-{##}
-{#	</div>#}
-{##}
-{#	<div class="form-group col-md-4  col-sm-12 ">#}
-{#		<label>Password </label>#}
-{#		<input  name="password" type="password" class="form-control" placeholder="please enter your age" />#}
-{#	</div>#}
-{##}
-{#	<div class="form-group col-md-4  col-sm-12 ">#}
-{#		<label>Password Confirmation </label>#}
-{#		<input name="password_confirmation" type="text" class="form-control" placeholder="please enter your Track" />#}
-{#	</div>#}
-{##}
-{#     </div>#}
-{#     <br/>#}
-{#	<a href="/blogersite/home"><button class="btn btn-primary" type="submit"> Submit</button></a>#}
-{#<br/><br/>#}
-{##}
-{#</form>#}
-{##}
-{#<form method="POST" >{% csrf_token %}#}
-{#method1#}
-{#    name:{{form.username}}#}
-{#    email:{{form.email}}#}
-{#    dateJOined:{{ form.date_joined }}#}
-{#    password:{{form.password1}}#}
-{#    passconfirm{{ form.password2 }}#}
-{#{{ form.as_p }}#}
-
-{#method 2#}
-
-<div class="container">
-    {% for field in form %}
-    <div class="row">
-       <div class="form-group col-6 row">
-        {{ field.label_tag}}
-
-        {{ field.errors }}
-       </div>
-        <div class="form-group col-md-4  col-sm-12 ">
-         {{ field }}
-       </div>
-    </div>
- {% endfor %}
- <a href="/blogersite/home"><button class="btn btn-primary" type="submit"> Submit</button></a>
-    <button class="btn btn-warning" type="reset">Reset</button>
-</div>
-
-{# method3 #}
-
-{#    <p><label for="id_subject">Subject:</label>#}
-{#    <input id="id_subject" type="text" name="subject" maxlength="100" required /></p>#}
-
-
-
-{#     <div class="fieldWrapper">#}
-{#    {{ form.password2.errors }}#}
-{#    <label for="{{ form.password2.id_for_label }}">Password Confirmation:</label>#}
-{#    {{ form.password2 }}#}
-{#</div>#}
-
-{#<div class="container">#}
-{#<div class="row">#}
-{#<div class="form-group col-md-4 col-lg-6 col-sm-12 fieldWrapper">#}
-{#    {{ form.username.errors }}#}
-{#    <label for="{{ form.username.id_for_label }}">UserName:</label>#}
-{#    {{ form.username }}#}
-{#</div>#}
-{#    <div class="form-group col-md-4 col-lg-6 col-sm-12 fieldWrapper ">#}
-{#    {{ form.email.errors }}#}
-{#    <label for="{{ form.email.id_for_label }}">Email:</label>#}
-{#    {{ form.email }}#}
-{#</div>#}
-{#    <div class="form-group col-md-4 col-lg-6 col-sm-12 fieldWrapper ">#}
-{#    {{ form.password1.errors }}#}
-{#    <label for="{{ form.password1.id_for_label }}">Password:</label>#}
-{#    {{ form.password1 }}#}
-{#</div>#}
-{#    <div class="form-group col-md-4  col-lg-6 col-sm-12 fieldWrapper">#}
-{#    {{ form.password2.errors }}#}
-{#    <label for="{{ form.password2.id_for_label }}">Password Confirmation:</label>#}
-{#    {{ form.password2 }}#}
-{#</div>#}
-{#</div>#}
-{#    <a href="/blogersite/home"><button class="btn btn-primary" type="submit"> Submit</button></a>#}
-{#    <button class="btn btn-warning" type="reset">Reset</button>#}
-{#    </div>#}
-
-
-
-
 
 </form>
 
@@ -128,3 +7,88 @@
 <script src="{% static 'bootstrap/bootstrap.bundle.min.js'%}"></script>
 </body>
 </html>
+
+
+
+<!DOCTYPE html><html>
+<head>
+</script><meta charset='UTF-8'><meta name="robots" content="noindex">
+<link rel="shortcut icon" type="image/x-icon" href="//production-assets.codepen.io/assets/favicon/favicon-8ea04875e70c4b0bb41da869e81236e54394d63638a1ef12fa558a4a835f1164.ico" />
+<link rel="mask-icon" type="" href="//production-assets.codepen.io/assets/favicon/logo-pin-f2d2b6d2c61838f7e76325261b7195c27224080bc099486ddd6dccb469b8e8e6.svg" color="#111" />
+<link rel="canonical" href="https://codepen.io/dpinnick/pen/LjdLmo?limit=all&page=21&q=service" />
+<link rel="stylesheet" type="text/css" href="{% static 'n.css'%}">
+<link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'>
+<style class="cp-pen-styles">@import url(https://fonts.googleapis.com/css?family=Raleway:400,100,200,300);
+
+
+</style></head><body>
+        <!-- LOGIN MODULE -->
+        <div class="login">
+            <div class="wrap">
+              
+                <!-- LOGIN FORM -->
+                <div class="user">
+
+                    <div class="form-wrap">
+                        <!-- TABS -->
+                    	<div class="tabs">
+
+                    		<h3 class="signup-tab"><a class="sign-up" href="#signup-tab-content"><span>Sign Up</span></a></h3>
+                    	</div>
+                        <!-- TABS CONTENT -->
+                    	<div class="tabs-content">
+
+
+                            <!-- TABS CONTENT SIGNUP -->
+                    		<div id="signup-tab-content">
+                    			<form method="post">{% csrf_token %}
+                                     {{ form.username.errors }}
+                                    <input  class="input form-control" name="username" {{ form.username.id_for_input }}  placeholder="Username">
+                                     {{ form.email.errors }}
+                                    <input  class="input form-control" name="email" {{ form.email.id_for_input }}  placeholder="Email">
+                                     {{ form.password1.errors }}
+                                    <input  type="password" class="input form-control" name="password1" {{ form.password1.id_for_input }}  placeholder="Password">
+                                    {{ form.password2.errors }}
+                                    <input  type="password" class="input form-control"  name="password2" {{ form.password2.id_for_input }}  placeholder="Confrim Password">
+
+                    				<input type="submit" class="button" value="Sign Up">
+{#        <button class="btn btn-primary" type="submit"> Submit</button>#}
+
+                    			</form>
+
+                    		</div>
+                    	</div>
+                	</div>
+                </div>
+            </div>
+        </div>
+
+<script src='//production-assets.codepen.io/assets/common/stopExecutionOnTimeout-b2a7b3fe212eaa732349046d8416e00a9dec26eb7fd347590fbced3ab38af52e.js'></script><script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+<script >/* LOGIN - MAIN.JS - dp 2017 */
+
+// LOGIN TABS
+
+$(document).ready(function(){
+	$(".tabs").addClass("active")
+	$('div[id$="tab-content"]').addClass('active');
+		$(tab_content).addClass('active');
+});
+
+
+{#$(function() {#}
+{#	$('.button').on('click', function(event) {#}
+{##}
+{#		event.preventDefault();#}
+{#		return false;#}
+{#	});#}
+{#});#}
+
+</script>
+</body></html>
+
+
+
+
+
+
+

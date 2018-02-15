@@ -10,11 +10,11 @@
 
 <form method="POST" > {% csrf_token%}
     {{form.as_p}}
-   <a href="blogersite/allusers"><button type="submit"> Submit</button></a> 
-    <button type="reset">Reset</button>
+   <a href="blogersite/allusers"><button type="submit" class="btn btn-primary"> Submit</button></a>
+    <button type="reset" class="btn btn-warning">Reset</button>
 
 </form>
-<a href="/blogersite/allusers"><button>Home</button></a>
+<!--<a href="/blogersite/allusers"><button class="btn btn-success" >Home</button></a>-->
 
 
 {% endblock %}

@@ -1,4 +1,5 @@
 {% load static %}
+{% block header %}
 <!doctype html>
 <html lang="en">
 <head>
@@ -20,7 +21,7 @@
     <link href="{% static 'assets/css/animate.min.css' %}" rel="stylesheet"/>
 
     <!--  Light Bootstrap Table core CSS    -->
-    <link href="{% static 'assets/css/light-bootstrap-dashboard.css?v=1.4.0' %}" rel="stylesheet"/>
+    <link href="{% static 'assets/css/light-bootstrap-dashboard.css' %}" rel="stylesheet"/>
     <link href="{% static 'assets/bootstrap/' %}" rel="stylesheet"/>
 
     <!--     Fonts and icons     -->
@@ -31,6 +32,9 @@
     <link href="{% static 'assets/css/pe-icon-7-stroke.css' %}" rel="stylesheet"/>
 
 </head>
+{% endblock %}
+
+{% block sidebar %}
 <body>
 
 <div class="wrapper">
@@ -45,11 +49,10 @@
 
         <div class="sidebar-wrapper">
             <div class="logo">
-                <a href="home" class="simple-text">
+                <a href="/blogersite/home/" class="simple-text">
                     Admin Panel
                 </a>
             </div>
-
             <ul class="nav">
                 <li class="active">
                     <a href="/blogersite/Dashboard/">
@@ -70,12 +73,7 @@
                         <p>Users</p>
                     </a>
                 </li>
-                <li>
-                    <a href="/blogersite/allPosts/">
-                        <i class="pe-7s-note2"></i>
-                        <p>Posts</p>
-                    </a>
-                </li>
+
                 <li>
                     <a href="/blogersite/allTags/">
                         <i class="pe-7s-news-paper"></i>
@@ -94,84 +92,96 @@
                         <p>Forbidden Words</p>
                     </a>
                 </li>
+                <li>
+                    <a href="/blogersite/allPosts/">
+                        <i class="pe-7s-note2"></i>
+                        <p>Posts</p>
+                    </a>
+                </li>
             </ul>
         </div>
     </div>
     <div class="main-panel">
-        <nav class="navbar navbar-default navbar-fixed">
-            <div class="container">
-                <div class="collapse navbar-collapse">
+        <div class="container">
+            <div class="header">
+        <div class="container-fluid">
+                <ul class="nav navbar-nav pull-right">
+                    <li>
+                        <a href="#">
+                            <p>Log out</p>
+                        </a>
+                    </li>
+                    <li class="separator hidden-lg"></li>
+                </ul>
 
-                    <ul class="nav navbar-nav navbar-right">
-                        <li>
-                            <a href="#">
-                                <p>Log out</p>
-                            </a>
-                        </li>
-                        <li class="separator hidden-lg"></li>
-                    </ul>
+            </div>
+            </nav>
+            <br>
+            {% endblock %}
+            {% block main_block %}
+            <div class="container">
+
+                <div class="row">
+
+                    <div class="card border-primary md-3 mr-4" style="max-width: 18rem;">
+                        <a href="/blogersite/allusers/">
+                            <div class="card-header"> Users</div>
+                            <div class="card-body text-primary">
+                                <p class="card-text">Show all users and Admin/s. Promote, update, block and unblock
+                                    users.</p>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="card border-success md-3 mr-4" style="max-width: 18rem;">
+                        <a href="/blogersite/allPosts/">
+                            <div class="card-header">Posts</div>
+                            <div class="card-body text-success">
+                                <p class="card-text"> CRUD operations on Posts</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="row mt-5">
+                    <div class="card border-danger md-3 mr-4" style="max-width: 18rem;">
+                        <a href="/blogersite/allTags/">
+                            <div class="card-header">Tag Names</div>
+                            <div class="card-body text-danger">
+                                <p class="card-text"> CRUD operations on TagNames.</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="card border-warning md-3 mr-4" style="max-width: 18rem;">
+                        <a href="/blogersite/allCategories/">
+                            <div class="card-header">Categories</div>
+                            <div class="card-body text-warning">
+                                <p class="card-text"> CRUD operations on Categories.</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="card border-info md-3 mr-4" style="max-width: 18rem;">
+                        <a href="/blogersite/allForbidden/">
+                            <div class="card-header">Forbidden Words</div>
+                            <div class="card-body text-info">
+                                <p class="card-text"> CRUD operations on Forbidden Words.</p>
+                            </div>
+                        </a>
+
+                    </div>
                 </div>
             </div>
-        </nav>
-        <br>
-        <div class="container">
-            {% block main_block %}
-            <div class="card border-primary md-3" style="max-width: 18rem;">
-                <a href="/blogersite/allusers/">
-                    <div class="card-header"> Users</div>
-                    <div class="card-body text-primary">
-                        <p class="card-text">Show all users and Admin/s. Promote, update, block and unblock
-                            users.</p>
-                    </div>
-                </a>
-            </div>
-            <div class="card border-success md-3" style="max-width: 18rem;">
-                <a href="/blogersite/allPosts/">
-                    <div class="card-header">Posts</div>
-                    <div class="card-body text-success">
-                        <p class="card-text"> CRUD operations on Posts</p>
-                    </div>
-                </a>
-            </div>
-            <div class="card border-danger md-3" style="max-width: 18rem;">
-                <a href="/blogersite/allTags/">
-                    <div class="card-header">Tag Names</div>
-                    <div class="card-body text-danger">
-                        <p class="card-text"> CRUD operations on TagNames.</p>
-                    </div>
-                </a>
-            </div>
-            <div class="card border-warning md-3" style="max-width: 18rem;">
-                <a href="/blogersite/allCategories/">
-                    <div class="card-header">Categories</div>
-                    <div class="card-body text-warning">
-                        <p class="card-text"> CRUD operations on Categories.</p>
-                    </div>
-                </a>
-            </div>
-            <div class="card border-info md-3" style="max-width: 18rem;">
-                <a href="/blogersite/allForbidden/">
-                    <div class="card-header">Forbidden Words</div>
-                    <div class="card-body text-info">
-                        <p class="card-text"> CRUD operations on Forbidden Words.</p>
-                    </div>
-                </a>
-
-            </div>
-
         </div>
+        <footer class="footer">
+            <div class="container-fluid">
+                <p class="copyright pull-center"> Copyrights 2018 </p>
+            </div>
+        </footer>
+
     </div>
-    <footer class="footer">
-        <div class="container-fluid">
-            <p class="copyright pull-center"> Copyrights 2018 </p>
-        </div>
-    </footer>
 
-</div>
-</div>
+    {% endblock %}
 
-{% endblock %}
-
+    {% block footer %}
 </body>
 
 <!--   Core JS Files   -->
@@ -185,7 +195,7 @@
 <!--<script src="/blogersite/static/assets/js/bootstrap-notify.js"></script>-->
 
 <!--&lt;!&ndash; Light Bootstrap Table Core javascript and methods for Demo purpose &ndash;&gt;-->
-<script src="assets/js/light-bootstrap-dashboard.js"></script>
+<script src="/blogersite/static/assets/js/light-bootstrap-dashboard.js"></script>
 
 <script type="text/javascript">
     	$(document).ready(function(){
@@ -206,6 +216,11 @@
 
 
 
+
+
+
+
 </script>
 
 </html>
+{% endblock %}

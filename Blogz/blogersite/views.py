@@ -22,7 +22,7 @@ def home(request):
     return render(request,"adminPanel/home.html")
 
 def admin(request):
-    return render(request,"adminPanel/manager.html")
+    return render(request,"adminPanel/Dashboard.html")
 
 
 def register(request):

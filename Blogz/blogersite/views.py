@@ -89,17 +89,21 @@ def register(request):
         usr_form=RegUserForm(request.POST)
         if usr_form.is_valid():
             usr_form.save()
-
-            # usr=User.objects.get()
-            # usr.id.authenticate(username=usr.username,password=user.password)
-
             return HttpResponseRedirect("/blogersite/home")
     return render(request, "adminPanel/register.html",{"form":usr_form})
 
-def loguot(request):
-    if request.user.is_authenticated():
-        logout(request)
-        return HttpResponseRedirect("/blogersite/home")
+def logout(request):
+    # if request.user.is_authenticated:
+    logout(request)
+    return HttpResponseRedirect("/blogersite/")
+
+# def logout(request,usr_id):
+#     try:
+#         del request.session['usr_id']
+#         logout(request)
+#     except KeyError:
+#         pass
+#     return HttpResponseRedirect("/blogersite/home")
 
 def login_form(request):
     if request.method == 'POST':

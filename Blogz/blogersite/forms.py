@@ -19,7 +19,7 @@ class UserForm(forms.ModelForm):
 class RegUserForm(UserCreationForm):
     class Meta:
         model=User
-        fields=("username","email","date_joined","last_login","is_staff")
+        fields=("username","email","date_joined","last_login","password1","password2")
 
 
 

@@ -33,3 +33,17 @@ class Posts(models.Model):
 
     def __str__(self):
         return self.post_title
+
+
+class Comments(models.Model):
+    comm_date=models.DateTimeField('date')
+    u_id=models.ForeignKey(User)
+    p_id=models.ForeignKey(Posts)
+    content=models.TextField()
+    reply=models.TextField()
+    
+    def __str__(self):
+        return self.content
+
+
+

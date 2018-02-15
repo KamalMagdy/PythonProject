@@ -13,7 +13,7 @@ from .forms import PostForm
 from .models import Posts
 from .forms import TagForm
 from .models import TagNames
-
+import time
 
 def all_users(request):
     all_usr=User.objects.all()
@@ -307,3 +307,26 @@ def post_edit(request, post_id):
     else:
         form = PostForm(instance=post)
     return render(request, 'adminPanel/edit_post.html', {'form': form})
+
+
+def Post(request):
+    return render(request,'PostPage.html')
+
+def get_comment(request):
+    Post(request)
+    
+    if request.method=="POST":
+        newComment=request.POST.get('comment',None)
+        if newComment!=None:
+            dummyuser=User.objects.get(id=1)
+            dummypost=Post.objects.get(id=1)
+            date=time.asctime( time.localtime(time.time()) )
+            Comments.objects.create(comm_date=date,u_id=dummyuser,p_id=dummypost,content=newComment,reply=None)
+        
+        
+            
+
+    return HttpResponseRedirect('/blogersite/templates/user/PostPage.html')
+    
+
+

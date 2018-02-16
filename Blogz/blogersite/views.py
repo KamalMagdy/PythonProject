@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse,HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import authenticate,login,logout
+from django.contrib.auth import authenticate,login,logout as django_logout
 from django.contrib.auth.models import User
 from.forms import UserForm, RegUserForm
 from django.contrib.auth.forms import UserCreationForm
@@ -88,22 +88,24 @@ def register(request):
     if request.method=="POST":
         usr_form=RegUserForm(request.POST)
         if usr_form.is_valid():
+            usermail = User.objects.filter(email=request.POST['email'])
+            if usermail.exists():
+                return render(request, "adminPanel/register.html", {"form": usr_form, "repeatedmail": 1})
             usr_form.save()
+            reg_username = request.POST['username']
+            reg_password = request.POST['password1']
+            user = authenticate(username=reg_username, password=reg_password)
+            login(request, user)
             return HttpResponseRedirect("/blogersite/home")
     return render(request, "adminPanel/register.html",{"form":usr_form})
 
-def logout(request):
-    if request.user.is_authenticated():
-        logout(request)
-        return HttpResponseRedirect("/blogersite/home")
 
-# def logout(request,usr_id):
-#     try:
-#        del request.session['usr_id']
-#        logout(request)
-#     except KeyError:
-#         pass
-#         return HttpResponseRedirect("/blogersite/home")
+@login_required
+def logout(request):
+    django_logout(request)
+    logout(request)
+    return HttpResponseRedirect("/blogersite/home")
+
 
 def login_form(request):
     if request.method == 'POST':
@@ -115,6 +117,10 @@ def login_form(request):
         # it returns user object
         # and if it didn't find a user it will return None
         user = authenticate(username=name, password=password)
+        if user.is_active == 0:
+            return render(request, 'adminPanel/login_form.html',{"block":1})
+
+
 
         if user is not None:  # this means we found the user in database
             login(request, user)  # this means we put the user id in the session

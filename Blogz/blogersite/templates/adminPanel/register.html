@@ -1,30 +1,24 @@
 {% load static %}
 
-</form>
-
-
-<script src="{% static 'bootstrap/jquery.min.js'%}"></script>
-<script src="{% static 'bootstrap/bootstrap.bundle.min.js'%}"></script>
-</body>
-</html>
-
-
-
-<!DOCTYPE html><html>
+<!DOCTYPE html>
+<html>
 <head>
+
 </script><meta charset='UTF-8'><meta name="robots" content="noindex">
 <link rel="shortcut icon" type="image/x-icon" href="//production-assets.codepen.io/assets/favicon/favicon-8ea04875e70c4b0bb41da869e81236e54394d63638a1ef12fa558a4a835f1164.ico" />
 <link rel="mask-icon" type="" href="//production-assets.codepen.io/assets/favicon/logo-pin-f2d2b6d2c61838f7e76325261b7195c27224080bc099486ddd6dccb469b8e8e6.svg" color="#111" />
 <link rel="canonical" href="https://codepen.io/dpinnick/pen/LjdLmo?limit=all&page=21&q=service" />
 <link rel="stylesheet" type="text/css" href="{% static 'n.css'%}">
 <link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'>
-<style class="cp-pen-styles">@import url(https://fonts.googleapis.com/css?family=Raleway:400,100,200,300);
+<style class="cp-pen-styles">@import url(https://fonts.googleapis.com/css?family=Raleway:400,100,200,300);</style>
 
-
-</style></head><body>
+     <script src="{% static 'bootstrap/bootstrap.min.css'%}"></script>
+</head><body>
         <!-- LOGIN MODULE -->
+
         <div class="login">
             <div class="wrap">
+
 
                 <!-- LOGIN FORM -->
                 <div class="user">
@@ -45,6 +39,7 @@
                                      {{ form.username.errors }}
                                     <input  class="input form-control" name="username" {{ form.username.id_for_input }}  placeholder="Username">
                                      {{ form.email.errors }}
+{% if repeatedmail == 1 %}<div style="font-size: 25px; color:red">This mail already exist</div>{% endif %}
                                     <input  class="input form-control" name="email" {{ form.email.id_for_input }}  placeholder="Email">
                                      {{ form.password1.errors }}
                                     <input  type="password" class="input form-control" name="password1" {{ form.password1.id_for_input }}  placeholder="Password">
@@ -62,6 +57,7 @@
                 </div>
             </div>
         </div>
+
 
 <script src='//production-assets.codepen.io/assets/common/stopExecutionOnTimeout-b2a7b3fe212eaa732349046d8416e00a9dec26eb7fd347590fbced3ab38af52e.js'></script><script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
 <script >/* LOGIN - MAIN.JS - dp 2017 */
@@ -81,9 +77,11 @@ $(document).ready(function(){
 {#		event.preventDefault();#}
 {#		return false;#}
 {#	});#}
-{#});#}
+
 
 </script>
+<script src="{% static 'bootstrap/jquery.min.js'%}"></script>
+<script src="{% static 'bootstrap/bootstrap.bundle.min.js'%}"></script>
 </body></html>
 
 

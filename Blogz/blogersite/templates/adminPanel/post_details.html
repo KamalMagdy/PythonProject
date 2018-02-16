@@ -1,14 +1,33 @@
 {% load static %}
-<h1>{{allPosts.post_title}}</h1>
-<b>Content: </b> {{allPosts.post_content}}<br>
-<b>Date: </b> {{allPosts.post_date}}<br>
 
-<b>Image: </b> {{allPosts.post_image}}<br>
-<b>Category: </b> {{allPosts.post_cat}}<br>
-<b>Tags: </b> {{allPosts.post_tag}}<br>
+<html>
+<head>
+    <link rel="stylesheet" href="{% static 'bootstrap/bootstrap.min.css' %}">
+</head>
+<body>
+
+<div class="container">
+
+    <h1>{{ allPosts.post_title }}</h1>
+    <b>Content: </b> {{ allPosts.post_content }}<br>
+    <b>Date: </b> {{ allPosts.post_date }}<br>
 
 
-<img src="{% static ""%}images/{{allPosts.post_image}}" alt="">
+    <b>Category: </b> {{ allPosts.post_cat }}<br>
+    <b>Tags: </b> {{ allPosts.post_tag }}<br>
 
-<br />
-<a href = '/blogersite/allPosts/'><< Back to home </a>
+
+    <img src="{% static "" %}images/{{ allPosts.post_image }}" alt="">
+
+    <br/>
+    <a href='/blogersite/allPosts/'><< Back to home </a>
+
+
+</div>
+
+
+<script href="{% static 'bootstrap/bootstrap.bundle.min.js' %}"></script>
+<script href="{% static 'bootstrap/jquery.min.js' %}"></script>
+
+</body>
+</html>

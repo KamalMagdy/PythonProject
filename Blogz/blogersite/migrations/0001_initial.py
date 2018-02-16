@@ -34,7 +34,7 @@ class Migration(migrations.Migration):
                 ('post_title', models.CharField(max_length=200)),
                 ('post_content', models.TextField()),
                 ('post_image', models.ImageField(default=b'1.png', upload_to=b'./static/', blank=True)),
-                ('post_date', models.DateTimeField(verbose_name=b'date')),
+                ('post_date', models.DateTimeField(auto_now_add=True)),
                 ('post_cat', models.ForeignKey(to='blogersite.Categories')),
             ],
         ),

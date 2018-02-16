@@ -1,17 +1,24 @@
-{% extends "adminPanel/base.html" %}
+
+{% load static %}
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'bootstrap/bootstrap.min.css' %}">
 </head>
 <body>
-    {% block main_block %}
+
+
+        <div class="container">
     <h1> New Post </h1>
     <form method="POST" enctype="multipart/form-data">{% csrf_token %}
     {{ form.as_p }}
     <button type="submit" >Save</button>
-    {% endblock %}
+        </div>
 
+
+        <script href="{% static 'bootstrap/bootstrap.bundle.min.js' %}"></script>
+<script href="{% static 'bootstrap/jquery.min.js' %}"></script>
 </body>
 </html>

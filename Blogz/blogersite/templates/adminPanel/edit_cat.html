@@ -1,4 +1,4 @@
-{% extends "adminPanel/base.html" %}
+{% extends "adminPanel/Dashboard.html" %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -7,10 +7,11 @@
 </head>
 <body>
     {% block main_block %}
-    <h1> Edit Category </h1>
+    <h3> Edit Category </h3>
     <form method="POST">{% csrf_token %}
         {{ form.as_p }}
-    <button type="submit" >Save</button>
+    <button class="btn btn-primary" type="submit" >Save</button>
+    <button type="reset" class="btn btn-warning">Reset</button>
     {% endblock %}
 </body>
 </html>

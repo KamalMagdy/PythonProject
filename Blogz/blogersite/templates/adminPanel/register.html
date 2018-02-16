@@ -45,6 +45,7 @@
                                      {{ form.username.errors }}
                                     <input  class="input form-control" name="username" {{ form.username.id_for_input }}  placeholder="Username">
                                      {{ form.email.errors }}
+                                     {% if repeatedmail == 1 %}<div style="font-size: 25px; color:red">This mail already exist</div>{% endif %}
                                     <input  class="input form-control" name="email" {{ form.email.id_for_input }}  placeholder="Email">
                                      {{ form.password1.errors }}
                                     <input  type="password" class="input form-control" name="password1" {{ form.password1.id_for_input }}  placeholder="Password">

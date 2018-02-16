@@ -1,27 +1,30 @@
+{% extends "adminPanel/Dashboard.html" %}
 
-{% extends "adminPanel/base.html" %}
-
-<!DOCTYPE html>
-<html>
-<head>
-	<title></title>
-</head>
 {% block main_block %}
-<!--{% load staticfiles %}-->
-<body>
-	<a href = "/blogersite/adminPanel/new_tag/">Add New Tag Name</a>
-	<br>
-	<table border="2">
-		<th>Tag Name</th>
-		<th colspan="2">Options</th>
-		{%  for tag in allTags  %}
-		<tr>
-			<td>{{tag.tag_name}}</td>
-			<td><a href= "/blogersite/adminPanel/{{tag.id}}/editT">Edit</a></td>
-			<td><a href= "/blogersite/adminPanel/{{tag.id}}/deleteT">Delete</a></td>
-		</tr>
-		{%  endfor  %}
-	</table>
-</body>
+
+<a href="/blogersite/adminPanel/new_tag/">
+    <button class="btn btn-primary pull-right">Add New Tag Name</button>
+</a>
+<br>
+<div class="table-responsive">
+    <table class=" table table-highlight table-striped table-hover ">
+        <thead class="thead-dark">
+        <th>Tag Name</th>
+        <th colspan="5">Options</th>
+        </thead>
+        {% for tag in allTags %}
+        <tr>
+            <td>{{tag.tag_name}}</td>
+            <td><a href="/blogersite/adminPanel/{{tag.id}}/editT">
+                <button class="btn btn-warning">Edit</button>
+            </a></td>
+            <td><a href="/blogersite/adminPanel/{{tag.id}}/deleteT">
+                <button class="btn btn-danger">Delete</button>
+            </a></td>
+
+        </tr>
+        {% endfor %}
+    </table>
+</div>
 {% endblock %}
-</html>
+

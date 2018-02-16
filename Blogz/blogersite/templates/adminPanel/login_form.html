@@ -35,7 +35,9 @@
                     			<form class="login-form" action="" method="post"> {% csrf_token %}
                     				<input name="username" type="text" class="input" id="user_login" autocomplete="off" placeholder="Username">
                     				<input name="password" type="password" class="input" id="user_pass" autocomplete="off" placeholder="Password">
-
+{% if block == 1 %}
+        <div style="color:red; font-size:30px"> you are blocked please contact an admin</div>
+    {% endif  %}
                     				<input type="submit" class="button" value="Login">
                     			</form>
 

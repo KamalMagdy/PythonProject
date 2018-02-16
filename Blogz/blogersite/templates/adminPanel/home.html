@@ -6,14 +6,20 @@
 {% load staticfiles %}
 
 <div class="row">
-
+<div class="col-1"></div>
 <!-- Sidebar -->
-<div class="w3-sidebar w3-light-grey w3-bar-block col-4" style="width:25%">
+<div class="w3-sidebar w3-light-grey w3-bar-block col-3" style="width:25%">
   <h3 class="w3-bar-item">Categories</h3>
   <div>
             {% for cat in allCategories%}
 			<a href = "#">{{cat.cat_name}}</a>
-			<a href = "#{{cat.id}}"><button>Subscribe</button></a><br><br>
+			{%if user.is_authenticated %}
+			<a href = "#{{cat.id}}"><button>Subscribe</button></a><br>
+
+			{%else%}
+
+			    <br><br>
+            {%endif%}
         {% endfor %}
         </div>
 </div>

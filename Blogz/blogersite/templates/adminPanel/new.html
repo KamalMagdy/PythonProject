@@ -1,4 +1,6 @@
+{% extends "adminPanel/Dashboard.html" %}
 {% load static %}
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,18 +8,24 @@
 	<title> Add New User</title>
 </head>
 <body>
+    {% block main_block %}
+
 <div class="container">
 <form method="POST" class=""> {% csrf_token%}
 
     {{form.as_p}}
-   <a href="blogersite/allusers"><button type="submit"> Submit</button></a> 
-    <button type="reset">Reset</button>
+   <a href="/blogersite/allusers"><button type="submit" class="btn btn-primary"> Submit</button></a>
+    <button type="reset" class="btn btn-warning">Reset</button>
 
 </form>
-<a href="/blogersite/allusers"><button>Home</button></a>
+<!--<a href="/blogersite/allusers"><button>Home</button></a>-->
 </div>
 
 <script src="{% static 'bootstrap/jquery.min.js'%}"></script>
 <script src="{% static 'bootstrap/bootstrap.bundle.min.js'%}"></script>
+<!--<a href="/blogersite/allusers"><button class="btn btn-success" >Home</button></a>-->
+
+
+{% endblock %}
 </body>
 </html>

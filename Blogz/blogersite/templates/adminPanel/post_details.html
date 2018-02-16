@@ -1,3 +1,4 @@
+{% extends "adminPanel/Dashboard.html" %}
 {% load static %}
 
 <html>
@@ -5,6 +6,7 @@
     <link rel="stylesheet" href="{% static 'bootstrap/bootstrap.min.css' %}">
 </head>
 <body>
+{% block main_block %}
 
 <div class="container">
 
@@ -17,10 +19,7 @@
     <b>Tags: </b> {{ allPosts.post_tag }}<br>
 
 
-    <img src="{% static "" %}images/{{ allPosts.post_image }}" alt="">
-
-    <br/>
-    <a href='/blogersite/allPosts/'><< Back to home </a>
+    <img src="{% static ""%}images/{{ allPosts.post_image }}" alt="">
 
 
 </div>
@@ -29,5 +28,8 @@
 <script href="{% static 'bootstrap/bootstrap.bundle.min.js' %}"></script>
 <script href="{% static 'bootstrap/jquery.min.js' %}"></script>
 
+<br />
+<a href = '/blogersite/allPosts/'><< Back to home </a>
 </body>
 </html>
+    {% endblock %}

@@ -78,7 +78,7 @@ WSGI_APPLICATION = 'Blogz.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'blogs',
+        'NAME': 'blog',
         'USER': 'root',
         'PASSWORD': 'Mino1994',
         'HOST': 'localhost',
@@ -105,7 +105,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
-STATIC_URL=os.path.join(BASE_DIR,"blogersite/static/")
+STATIC_URL=os.path.join(BASE_DIR,"blogersite/static/assets/")
 LOGIN_URL = '/login'
 # REGIESTER_URL='/register'
 MEDIA_ROOT= os.path.join(BASE_DIR, 'blogersite/static/images')

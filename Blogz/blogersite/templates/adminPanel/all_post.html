@@ -1,28 +1,39 @@
-
-{% extends "adminPanel/base.html" %}
+{% extends "adminPanel/Dashboard.html" %}
 
 <!DOCTYPE html>
 <html>
 <head>
-	<title></title>
+    <title></title>
 </head>
-{% block main_block %}
-<!--{% load staticfiles %}-->
 <body>
-	<a href = "/blogersite/adminPanel/new_post/">Add New Post</a>
-	<br>
-	<table border="2">
-		<th>Post title</th>
-		<th colspan="3">Options</th>
-		{%  for posts in allPosts  %}
-		<tr>
-			<td>{{posts.post_title}}</td>
-			<td><a href = "/blogersite/adminPanel/{{posts.id}}/showP">Show more</a></td>
-			<td><a href= "/blogersite/adminPanel/{{posts.id}}/editP">Edit</a></td>
-			<td><a href= "/blogersite/adminPanel/{{posts.id}}/deleteP">Delete</a></td>
-		</tr>
-		{%  endfor  %}
-	</table>
-</body>
+{% block main_block %}
+<a href="/blogersite/adminPanel/new_post/">
+    <button class="btn btn-primary pull-right">Add New Post</button>
+</a>
+<br>
+<div class="table-responsive">
+    <table class=" table table-highlight table-striped table-hover">
+        <thead class="thead-dark">
+        <th>Post title</th>
+        <th colspan="3">Options</th>
+        </thead>
+        {% for posts in allPosts %}
+        <tr>
+            <td>{{posts.post_title}}</td>
+            <td><a href="/blogersite/adminPanel/{{posts.id}}/showP">
+                <button class="btn btn-info">Show more</button>
+            </a></td>
+            <td><a href="/blogersite/adminPanel/{{posts.id}}/editP">
+                <button class="btn btn-warning">Edit</button>
+            </a></td>
+            <td><a href="/blogersite/adminPanel/{{posts.id}}/deleteP">
+                <button class="btn btn-danger">Delete</button>
+            </a></td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
 {% endblock %}
+
+</body>
 </html>

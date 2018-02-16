@@ -1,27 +1,29 @@
-
-{% extends "adminPanel/base.html" %}
+{% extends "adminPanel/Dashboard.html" %}
 
 <!DOCTYPE html>
 <html>
 <head>
 	<title></title>
 </head>
-{% block main_block %}
-<!--{% load staticfiles %}-->
 <body>
-	<a href = "/blogersite/adminPanel/new_forbid/">Add New Forbidden Word</a>
+{% block main_block %}
+
+<a href = "/blogersite/adminPanel/new_forbid/"><button class="btn btn-primary pull-right" >Add New Forbidden Word</button></a>
 	<br>
-	<table border="2">
+<div class="table-responsive">
+	<table class=" table table-striped table-hover ">
 		<th>Forbidden Word</th>
 		<th colspan="2">Options</th>
 		{%  for forbidden in allForbidden  %}
 		<tr>
 			<td>{{forbidden.forbiddenWord}}</td>
-			<td><a href= "/blogersite/adminPanel/{{forbidden.id}}/editF">Edit</a></td>
-			<td><a href= "/blogersite/adminPanel/{{forbidden.id}}/deleteF">Delete</a></td>
+			<td><a href= "/blogersite/adminPanel/{{forbidden.id}}/editF"><button class="btn btn-warning" >Edit</button></a></td>
+			<td><a href= "/blogersite/adminPanel/{{forbidden.id}}/deleteF"><button class="btn btn-danger" >Delete</button></a></td>
 		</tr>
 		{%  endfor  %}
 	</table>
-</body>
+</div>
 {% endblock %}
+
+</body>
 </html>

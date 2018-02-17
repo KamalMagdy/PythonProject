@@ -3,7 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout as django_logout
 from django.contrib.auth.models import User
-from .forms import UserForm, RegUserForm
+from .forms import  RegUserForm
 from django.contrib.auth.forms import UserCreationForm
 from .forms import CategoryForm
 from .models import Categories
@@ -130,10 +130,10 @@ def login_form(request):
         if user is not None:  # this means we found the user in database
             login(request, user)  # this means we put the user id in the session
 
-            # return HttpResponse('logged in succes')
+
             return HttpResponseRedirect("/blogersite/home")
         else:
-            # return HttpResponseRedirect("/blogersite/register")
+
             return render(request,"adminPanel/login_form.html",{"openreg":1})
     return render(request, 'adminPanel/login_form.html')
 

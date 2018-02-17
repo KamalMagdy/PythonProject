@@ -51,4 +51,5 @@ urlpatterns = [
     # url(r'^home', views.home),
     url(r'^logout$', views.logout),
 
+
 ]

@@ -9,7 +9,7 @@ from .models import TagNames
 class UserForm(forms.ModelForm):
     class Meta:
         model=User
-        fields=("username","password","email","is_superuser","is_active","date_joined","last_login")
+        fields=("username","password1","password2","email","is_superuser","is_active")
 
 
 class RegUserForm(UserCreationForm):

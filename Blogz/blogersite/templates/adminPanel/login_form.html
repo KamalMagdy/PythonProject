@@ -3,14 +3,15 @@
 <html class=''>
 <head>
     <link rel="stylesheet" href="{% static 'bootstrap/bootstrap.min.css' %}">
-</script><meta charset='UTF-8'><meta name="robots" content="noindex">
-<link rel="shortcut icon" type="image/x-icon" href="//production-assets.codepen.io/assets/favicon/favicon-8ea04875e70c4b0bb41da869e81236e54394d63638a1ef12fa558a4a835f1164.ico" />
-<link rel="mask-icon" type="" href="//production-assets.codepen.io/assets/favicon/logo-pin-f2d2b6d2c61838f7e76325261b7195c27224080bc099486ddd6dccb469b8e8e6.svg" color="#111" />
-<link rel="canonical" href="https://codepen.io/dpinnick/pen/LjdLmo?limit=all&page=21&q=service" />
 <link rel="stylesheet" href="{% static 'n.css' %}">
-<link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'>
+{#<meta charset='UTF-8'><meta name="robots" content="noindex">#}
+{#<link rel="shortcut icon" type="image/x-icon" href="//production-assets.codepen.io/assets/favicon/favicon-8ea04875e70c4b0bb41da869e81236e54394d63638a1ef12fa558a4a835f1164.ico" />#}
+{#<link rel="mask-icon" type="" href="//production-assets.codepen.io/assets/favicon/logo-pin-f2d2b6d2c61838f7e76325261b7195c27224080bc099486ddd6dccb469b8e8e6.svg" color="#111" />#}
+{#<link rel="canonical" href="https://codepen.io/dpinnick/pen/LjdLmo?limit=all&page=21&q=service" />#}
+
+{#<link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'>#}
 <style class="cp-pen-styles">@import url(https://fonts.googleapis.com/css?family=Raleway:400,100,200,300);
-/* GENERAL RESETS */
+
 
 
 
@@ -27,9 +28,9 @@
                     <div class="form-wrap">
                         <!-- TABS -->
                     	<div class="tabs">
-                            <h3 class="login-tab"><a class="log-in active"><span>Login<span></a></h3>
+                            <h3 class="login-tab"><a class="log-in active"><span>Login</span></a></h3>
+    {% if openreg == 1 %} <h3 class="login-tab"><a href="/blogersite/register" class="log-in active"><span>Register Here</span></a></h3> {% endif %}
                     	</div>
-                        <!-- TABS CONTENT -->
                     	<div class="tabs-content">
                             <!-- TABS CONTENT LOGIN -->
                     		<div id="login-tab-content" class="active">
@@ -51,8 +52,7 @@
         </div>
 </div>
 
-
-            <script src="{% static 'bootstrap/jquery.min.js'%}"></script>
+        <script src="{% static 'bootstrap/jquery.min.js'%}"></script>
 <script src="{% static 'bootstrap/bootstrap.bundle.min.js'%}"></script>
 </body>
 </html>

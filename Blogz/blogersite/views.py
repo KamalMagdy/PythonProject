@@ -28,8 +28,8 @@ def admin(request):
     return render(request, "adminPanel/Dashboard.html")
 
 
-def register(request):
-    return render(request, "adminPanel/register.html")
+# def register(request):
+#     return render(request, "adminPanel/register.html")
 
 
 def block(request, usr_id):
@@ -133,7 +133,8 @@ def login_form(request):
             # return HttpResponse('logged in succes')
             return HttpResponseRedirect("/blogersite/home")
         else:
-            return HttpResponseRedirect("/blogersite/register")
+            # return HttpResponseRedirect("/blogersite/register")
+            return render(request,"adminPanel/login_form.html",{"openreg":1})
     return render(request, 'adminPanel/login_form.html')
 
 

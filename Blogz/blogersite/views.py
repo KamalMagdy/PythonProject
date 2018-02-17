@@ -304,4 +304,6 @@ def logout(request):
 def search(request):
     found_entries = Posts.objects.filter(post_title__icontains=request.GET['query']).order_by('-post_date')
     context = {"allPosts": found_entries}
+
     return render(request, "adminPanel/home.html", context)
+

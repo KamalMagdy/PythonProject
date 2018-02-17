@@ -1,21 +1,34 @@
 {% extends "adminPanel/base.html" %}
 {% load static %}
+<html>
+<body>
 <h1>welcome to home</h1>
-<div class="w3-sidebar w3-bar-block">
+
 {% block main_block %}
 {% load staticfiles %}
 
-<div class="row">
-<div class="col-1"></div>
-<!-- Sidebar -->
-<div class="w3-sidebar w3-light-grey w3-bar-block col-3" style="width:25%">
-  <h3 class="w3-bar-item">Categories</h3>
-  <div>
-            {% for cat in allCategories%}
-			<a href = "#">{{cat.cat_name}}</a>
-			{%if user.is_authenticated %}
-			<a href = "#{{cat.id}}"><button>Subscribe</button></a><br>
 
+<div class="row">
+<!-- Sidebar -->
+<div class="w3-sidebar w3-light-grey w3-bar-block col-3 raw bmd-layout-drawer bg-dark fullheightcol-3">
+<div>
+<form method="GET" action="/blogersite/search/">
+
+                    <input type="text" class="form-control ds-input" id="search" name="query" style="position: relative; vertical-align: top;" placeholder="Search for...">
+
+                </form>
+</div>
+<h3 style="margin-left:50px">Categories</h3><br>
+  <div class="row">
+
+
+
+            {% for cat in allCategories%}
+            <div class></div>
+			<a style="margin-left:30px" class="col-6" href = "#">{{cat.cat_name}}</a>
+			{%if user.is_authenticated %}
+			<a class="col-4"  href = "#{{cat.id}}"><button class="subs" uid= "{{request.user.id}}" cid="{{cat.id}}">Subscribe</button></a><br>
+<br>
 			{%else%}
 
 			    <br><br>
@@ -24,46 +37,41 @@
         </div>
 </div>
 
-
 	<br>
 
 	<br>
 
-<div class="col-5">
+<div class="col-5 w3-container w3-card w3-red w3-round w3-margin">
     {%  for posts in allPosts  %}
+           <div class="col-2"style="color:#0000FF"></div>
+        <div class="col-8">
+         <span> {{ posts.post_cat }}</span>
+          <span class="w3-right w3-opacity">{{ posts.post_date }}</span>
 
-        <div>
-         <h6> {{ posts.post_cat }}</h6>
         <h3><a href = "#">{{posts.post_title}}</a></h3>
-        <h5>{{ posts.post_tags }}</h5>
-        <img src="{{ posts.post_image }}"/>
-
+        <hr class="w3-clear">
+         <h5>{{ posts.post_tags }}</h5>
+        <hr class="w3-clear">
 
              <p> {{ posts.post_content }}</p>
 
-         <p>{{ posts.post_date }}</p>
+
+
+        <img style="width:100%" class="w3-margin-bottom" src="{{ posts.post_image.url }}">
+
 
         </div><br>
 
 
 
 		{%  endfor  %}
-
+     <div class="col-2"></div>
 </div>
 
-<div>
-<form method="GET" action="/blogersite/search/">
 
-                    <input type="text" class="form-control" id="search" name="query" placeholder="Search for...">
-                    <span class="input-group-btn">
-                  <button class="btn btn-secondary" type="submit" >Search</button>
-                </span>
-                </form>
-</div>
 
 
     </div>
-</form>
 
 {% endblock %}
 
@@ -73,5 +81,10 @@
 </div>
 
 
+
+
+
 </body>
 </html>
+
+

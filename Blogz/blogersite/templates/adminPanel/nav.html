@@ -28,6 +28,7 @@
 
 {%if user.is_authenticated %}
       <li class="nav-item">
+      <p>Welcome {{ request.user.username }}</p>
             <a  style="color: white" class="nav-link"  href="/blogersite/home">logout</a>
        </li>
 {%else%}

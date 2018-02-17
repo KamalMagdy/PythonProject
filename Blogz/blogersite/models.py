@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from datetime import datetime
 
 # Create your models here.
 
@@ -27,9 +28,8 @@ class Posts(models.Model):
     post_title = models.CharField(max_length=200)
     post_content = models.TextField()
     post_image = models.ImageField(upload_to="./static/", blank=True, default='1.png')
-    post_date = models.DateTimeField('date')
+    post_date = models.DateTimeField(default=datetime.now())
     post_tags = models.ManyToManyField(TagNames, blank=True)
     post_cat = models.ForeignKey(Categories)
-
     def __str__(self):
         return self.post_title

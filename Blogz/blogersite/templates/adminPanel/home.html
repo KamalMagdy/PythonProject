@@ -51,14 +51,14 @@
 
         <h3><a href = "#">{{posts.post_title}}</a></h3>
         <hr class="w3-clear">
-         <h5>{{ posts.post_tags }}</h5>
+         <h5>Tag:{% for i in posts.post_tags.all %}{{ i.tag_name }}  {% endfor %} </h5>
         <hr class="w3-clear">
 
              <p> {{ posts.post_content }}</p>
 
 
 
-   <a href="#"><img style="width:100%" class="w3-margin-bottom" src="{{ posts.post_image.url }}">
+   <a href="#"><img style="" class="w3-margin-bottom" height="150px" width="150px" src="{% static ""%}images/{{ posts.post_image }}">
 </a>
 
         </div><br>
@@ -80,10 +80,6 @@
 
 
 </div>
-
-
-
-
 
 </body>
 </html>

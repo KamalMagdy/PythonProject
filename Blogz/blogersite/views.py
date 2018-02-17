@@ -1,9 +1,10 @@
 from django.shortcuts import render
-from django.http import HttpResponse,HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import authenticate,login
+from django.contrib.auth import authenticate, login, logout as django_logout
 from django.contrib.auth.models import User
-from.forms import UserForm, RegUserForm
+from .forms import UserForm, RegUserForm
+from django.contrib.auth.forms import UserCreationForm
 from .forms import CategoryForm
 from .models import Categories
 from .forms import ForbiddenForm
@@ -16,72 +17,75 @@ import re
 from django.db.models import Q
 
 def all_users(request):
-    all_usr=User.objects.all()
-    return  render(request,"adminPanel/all_users.html",{"all_usrs":all_usr})
+    all_usr = User.objects.all()
+    return render(request, "adminPanel/all_users.html", {"all_usrs": all_usr})
+
 
 def home(request):
     context={'allCategories':Categories.objects.all(),'allPosts':Posts.objects.all().order_by('-post_date')[:5]}
     return render(request,"adminPanel/home.html",context)
 
 def admin(request):
-    return render(request,"adminPanel/manager.html")
+    return render(request, "adminPanel/Dashboard.html")
 
 
 def register(request):
-    return render(request,"adminPanel/register.html")
+    return render(request, "adminPanel/register.html")
 
 
-def block(request,usr_id):
-    us=User.objects.get(id=usr_id)
-    us.is_active=0
-    us.save()
-    all_usr = User.objects.all()
-    return render(request,"adminPanel/all_users.html",{"all_usrs":all_usr})
-    # return HttpResponseRedirect("allusers")
-
-def unblock(request,usr_id):
-    us=User.objects.get(id=usr_id)
-    us.is_active=1
-    us.save()
-    all_usr = User.objects.all()
-    return render(request,"adminPanel/all_users.html",{"all_usrs":all_usr})
-    # return HttpResponseRedirect("allusers")
-
-def update(request,usr_id):
-    usr=User.objects.get(id=usr_id)
-    usr_form=UserForm(instance=usr)
-    if request.method=="POST":
-        usr_form=UserForm(request.POST,instance=usr)
-        if usr_form.is_valid():
-            usr_form.save()
-            return HttpResponseRedirect("/blogersite/allusers")
-
-    return render(request,"adminPanel/new.html",{"form":usr_form})
-
-
-
-def delete(request,usr_id):
-    us=User.objects.get(id=usr_id)
-    us.delete()
-
-    all_usr = User.objects.all()
-    return render(request,"adminPanel/all_users.html",{"all_usrs":all_usr})
-
-def promote(request,usr_id):
+def block(request, usr_id):
     us = User.objects.get(id=usr_id)
-    us.is_superuser=1
+    us.is_active = 0
     us.save()
     all_usr = User.objects.all()
     return render(request, "adminPanel/all_users.html", {"all_usrs": all_usr})
 
-def addnew(request):
-    usr_form=UserForm()
-    if request.method=="POST":
-        usr_form=UserForm(request.POST)
+
+def unblock(request, usr_id):
+    us = User.objects.get(id=usr_id)
+    us.is_active = 1
+    us.save()
+    all_usr = User.objects.all()
+    return render(request, "adminPanel/all_users.html", {"all_usrs": all_usr})
+
+
+def update(request, usr_id):
+    usr = User.objects.get(id=usr_id)
+    usr_form = UserForm(instance=usr)
+    if request.method == "POST":
+        usr_form = UserForm(request.POST, instance=usr)
         if usr_form.is_valid():
             usr_form.save()
-            return  HttpResponseRedirect("/blogersite/allusers")
-    return render(request,"adminPanel/new.html",{"form":usr_form})
+            return HttpResponseRedirect("/blogersite/allusers/")
+
+    return render(request, "adminPanel/new.html", {"form": usr_form})
+
+
+def delete(request, usr_id):
+    us = User.objects.get(id=usr_id)
+    us.delete()
+
+    all_usr = User.objects.all()
+    return render(request, "adminPanel/all_users.html", {"all_usrs": all_usr})
+
+
+def promote(request, usr_id):
+    us = User.objects.get(id=usr_id)
+    us.is_superuser = 1
+    us.save()
+    all_usr = User.objects.all()
+    return render(request, "adminPanel/all_users.html", {"all_usrs": all_usr})
+
+
+def addnew(request):
+    usr_form = RegUserForm()
+    if request.method == "POST":
+        usr_form = RegUserForm(request.POST)
+        if usr_form.is_valid():
+            usr_form.save()
+            return HttpResponseRedirect("/blogersite/allusers/")
+    return render(request, "adminPanel/new.html", {"form": usr_form})
+
 
 def register(request):
     usr_form=RegUserForm()
@@ -89,9 +93,24 @@ def register(request):
     if request.method=="POST":
         usr_form=RegUserForm(request.POST)
         if usr_form.is_valid():
+            usermail = User.objects.filter(email=request.POST['email'])
+            if usermail.exists():
+                return render(request, "adminPanel/register.html", {"form": usr_form, "repeatedmail": 1})
             usr_form.save()
+            reg_username = request.POST['username']
+            reg_password = request.POST['password1']
+            user = authenticate(username=reg_username, password=reg_password)
+            login(request, user)
             return HttpResponseRedirect("/blogersite/home")
     return render(request, "adminPanel/register.html",{"form":usr_form})
+
+
+@login_required
+def logout(request):
+    django_logout(request)
+    logout(request)
+    return HttpResponseRedirect("/blogersite/home")
+
 
 def login_form(request):
     if request.method == 'POST':
@@ -103,6 +122,11 @@ def login_form(request):
         # it returns user object
         # and if it didn't find a user it will return None
         user = authenticate(username=name, password=password)
+        if user:
+            if user.is_active == 0:
+                return render(request, 'adminPanel/login_form.html',{"block":1})
+
+
 
         if user is not None:  # this means we found the user in database
             login(request, user)  # this means we put the user id in the session
@@ -121,10 +145,9 @@ def logged_in_only(request):
     return HttpResponse('you are authenticated')
 
 
-
-
 def managerPanel(request):
-    return render(request, "adminPanel/manager.html")
+    return render(request, "adminPanel/Dashboard.html")
+
 
 def allCategories(request):
     all_categories = Categories.objects.all()
@@ -167,8 +190,9 @@ def category_edit(request, cat_id):
         form = CategoryForm(instance=category)
     return render(request, 'adminPanel/edit_cat.html', {'form': form})
 
+
 #######################################
-#ForbideentWords
+# ForbideentWords
 
 def allForbidden(request):
     all_forbidden = ForbiddenWords.objects.all()
@@ -213,7 +237,7 @@ def forbidden_edit(request, forbidden_id):
 
 
 ####################################################
-#Tag Names
+# Tag Names
 ####################################################
 def allTags(request):
     all_tag = TagNames.objects.all()
@@ -250,8 +274,9 @@ def tag_edit(request, tag_id):
         form = TagForm(instance=tag)
     return render(request, 'adminPanel/edit_tag.html', {'form': form})
 
+
 ####################################################
-#Posts
+# Posts
 ####################################################
 
 def allPosts(request):
@@ -271,7 +296,7 @@ def newPost(request):
     if request.method == "POST":
         post_form = PostForm(request.POST, request.FILES)
         if post_form.is_valid():
-            #post_form.post_image = request.FILES['post_image']
+            # post_form.post_image = request.FILES['post_image']
             post_form.save()
             return HttpResponseRedirect('/blogersite/allPosts/')
     context = {"form": post_form}
@@ -288,7 +313,7 @@ def post_edit(request, post_id):
     post = Posts.objects.get(id=post_id)
 
     if request.method == "POST":
-        form = PostForm(request.POST, instance=post)
+        form = PostForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
         return HttpResponseRedirect('/blogersite/allPosts/')
@@ -297,15 +322,20 @@ def post_edit(request, post_id):
     return render(request, 'adminPanel/edit_post.html', {'form': form})
 
 
-
-def logout(request):
-    pass
-
 def search(request):
-    found_entries = Posts.objects.filter(post_title__icontains=request.GET['query']).order_by('-post_date')
-    context = {"allPosts": found_entries}
+    #found_entries = Posts.objects.filter(post_title__icontains=request.GET['query']).order_by('-post_date')
+    #context = {"allPosts": found_entries}
+    #return render(request, "adminPanel/home.html", context)
 
-    return render(request, "adminPanel/home.html", context)
+    posts = Posts.objects.filter(post_title__icontains=request.GET['query'])
+    try:
+        tag=TagNames.objects.get(tag_name__icontains=request.GET['query'])
+        posts2=Posts.objects.filter(post_tags=tag.id)
+    except:
+        return render(request, "adminPanel/home.html",{'allPosts':posts})
+    else:
+        return render(request, "adminPanel/home.html",{'allPosts':posts2})
+
 
 def getCategoryPosts(request, cat_id):
     get_category = Categories.objects.get(id=cat_id)

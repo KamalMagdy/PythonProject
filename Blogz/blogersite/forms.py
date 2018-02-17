@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
 from .models import Categories
 from .models import ForbiddenWords
 from .models import Posts
@@ -10,11 +11,11 @@ class UserForm(forms.ModelForm):
         model=User
         fields=("username","password","email","is_superuser","is_active","date_joined","last_login")
 
-class RegUserForm(forms.ModelForm):
+
+class RegUserForm(UserCreationForm):
     class Meta:
         model=User
-        fields=("username","password","email","date_joined","last_login")
-
+        fields=("username","email","password1","password2")
 
 
 

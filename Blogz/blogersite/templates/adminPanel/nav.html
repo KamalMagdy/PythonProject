@@ -28,7 +28,7 @@
 
 {%if user.is_authenticated %}
       <li class="nav-item">
-      <span style="color: whitesmoke;">Welcome {{ request.user.username }}</span>
+      <p style="color: whitesmoke;">Welcome {{ request.user.username }}</p>
             <a  style="color: white" class="nav-link"  href="/blogersite/logout">logout</a>
        </li>
 {%else%}

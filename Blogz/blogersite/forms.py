@@ -6,11 +6,6 @@ from .models import ForbiddenWords
 from .models import Posts
 from .models import TagNames
 
-class UserForm(forms.ModelForm):
-    class Meta:
-        model=User
-        fields=("username","password","email","is_superuser","is_active","date_joined","last_login")
-
 
 class RegUserForm(UserCreationForm):
     class Meta:

@@ -3,7 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout as django_logout
 from django.contrib.auth.models import User
-from .forms import UserForm, RegUserForm
+from .forms import  RegUserForm
 from django.contrib.auth.forms import UserCreationForm
 from .forms import CategoryForm
 from .models import Categories
@@ -13,7 +13,8 @@ from .forms import PostForm
 from .models import Posts
 from .forms import TagForm
 from .models import TagNames
-
+import re
+from django.db.models import Q
 
 def all_users(request):
     all_usr = User.objects.all()
@@ -21,16 +22,12 @@ def all_users(request):
 
 
 def home(request):
-    return render(request, "adminPanel/home.html")
+    context={'allCategories':Categories.objects.all(),'allPosts':Posts.objects.all().order_by('-post_date')[:5]}
+    return render(request,"adminPanel/home.html",context)
 
 
 def admin(request):
     return render(request, "adminPanel/Dashboard.html")
-
-
-def register(request):
-    return render(request, "adminPanel/register.html")
-
 
 def block(request, usr_id):
     us = User.objects.get(id=usr_id)
@@ -130,10 +127,11 @@ def login_form(request):
         if user is not None:  # this means we found the user in database
             login(request, user)  # this means we put the user id in the session
 
-            # return HttpResponse('logged in succes')
+
             return HttpResponseRedirect("/blogersite/home")
         else:
-            return HttpResponseRedirect("/blogersite/register")
+
+            return render(request,"adminPanel/login_form.html",{"openreg":1})
     return render(request, 'adminPanel/login_form.html')
 
 
@@ -154,7 +152,7 @@ def allCategories(request):
     return render(request, "adminPanel/all_cat.html", context)
 
 
-def getCategory(request, cat_id):
+def getCategory(request,cat_id):
     get_category = Categories.objects.get(id=cat_id)
     context = {"allCategories": get_category}
     return render(request, "adminPanel/cat_details.html", context)
@@ -319,3 +317,24 @@ def post_edit(request, post_id):
     else:
         form = PostForm(instance=post)
     return render(request, 'adminPanel/edit_post.html', {'form': form})
+
+
+def search(request):
+    #found_entries = Posts.objects.filter(post_title__icontains=request.GET['query']).order_by('-post_date')
+    #context = {"allPosts": found_entries}
+    #return render(request, "adminPanel/home.html", context)
+
+    posts = Posts.objects.filter(post_title__icontains=request.GET['query'])
+    try:
+        tag=TagNames.objects.get(tag_name__icontains=request.GET['query'])
+        posts2=Posts.objects.filter(post_tags=tag.id)
+    except:
+        return render(request, "adminPanel/home.html",{'allPosts':posts})
+    else:
+        return render(request, "adminPanel/home.html",{'allPosts':posts2})
+
+
+def getCategoryPosts(request, cat_id):
+    get_category = Categories.objects.get(id=cat_id)
+    context = {'allPosts':Posts.objects.filter(	post_cat_id=get_category.id).order_by('-post_date')}
+    return render(request, "adminPanel/home.html", context)

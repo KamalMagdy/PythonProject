@@ -4,8 +4,15 @@
 <head>
     <meta charset="UTF-8">
 </head>
+
 <body>
+{% include "adminPanel/header.html" %}
+{% include "adminPanel/nav.html" %}
+
     {% block main_block %}
+
     {% endblock %}
 </body>
+{% include "adminPanel/footer.html" %}
+
 </html>

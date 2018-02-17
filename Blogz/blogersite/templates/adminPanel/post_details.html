@@ -16,7 +16,7 @@
 
 
     <b>Category: </b> {{ allPosts.post_cat }}<br>
-    <b>Tags: </b> {{ allPosts.post_tag }}<br>
+    <b>Tags: </b>{% for i in allPosts.post_tags.all  %} {{ i.tag_name    }}{% endfor %}<br>
 
 
     <img src="{% static ""%}images/{{ allPosts.post_image }}" alt="">

@@ -307,3 +307,7 @@ def search(request):
 
     return render(request, "adminPanel/home.html", context)
 
+def getCategoryPosts(request, cat_id):
+    get_category = Categories.objects.get(id=cat_id)
+    context = {'allPosts':Posts.objects.filter(	post_cat_id=get_category.id).order_by('-post_date')}
+    return render(request, "adminPanel/home.html", context)

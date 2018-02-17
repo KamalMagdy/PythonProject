@@ -46,8 +46,9 @@ urlpatterns = [
     url(r'^delete/(?P<usr_id>[0-9]+$)', views.delete),
     url(r'^addnew/', views.addnew),
     url(r'^search/$', views.search),
+    url(r'^cat/(?P<cat_id>[0-9]+$)', views.getCategoryPosts),
     # url(r'^register', views.register),
     # url(r'^home', views.home),
-url(r'^logout$', views.logout)
+    url(r'^logout$', views.logout)
 
 ]

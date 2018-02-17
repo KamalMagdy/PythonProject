@@ -25,13 +25,14 @@
 
             {% for cat in allCategories%}
             <div class></div>
-			<a style="margin-left:30px" class="col-6" href = "#">{{cat.cat_name}}</a>
+			<a style="margin-left:30px" class="col-6" href = "/blogersite/cat/{{cat.id}}">{{cat.cat_name}}</a>
 			{%if user.is_authenticated %}
 			<a class="col-4"  href = "#{{cat.id}}"><button class="subs" uid= "{{request.user.id}}" cid="{{cat.id}}">Subscribe</button></a><br>
 <br>
 			{%else%}
 
 			    <br><br>
+
             {%endif%}
         {% endfor %}
         </div>

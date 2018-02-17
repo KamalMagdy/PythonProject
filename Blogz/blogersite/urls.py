@@ -44,7 +44,10 @@ urlpatterns = [
     url(r'^promote/(?P<usr_id>[0-9]+$)', views.promote),
     url(r'^update/(?P<usr_id>[0-9]+$)', views.update),
     url(r'^delete/(?P<usr_id>[0-9]+$)', views.delete),
-    url(r'^addnew', views.addnew),
+    url(r'^addnew/', views.addnew),
+    url(r'^search/$', views.search),
+    url(r'^cat/(?P<cat_id>[0-9]+$)', views.getCategoryPosts),
     url(r'^logout$', views.logout),
+
 
 ]

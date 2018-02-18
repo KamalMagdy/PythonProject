@@ -13,6 +13,8 @@ from .forms import PostForm
 from .models import Posts
 from .forms import TagForm
 from .models import TagNames
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 import re
 from django.db.models import Q
 
@@ -22,13 +24,15 @@ def all_users(request):
 
 
 def home(request):
-    context={'allCategories':Categories.objects.all(),'allPosts':Posts.objects.all().order_by('-post_date')[:5]}
+    subcat= sub(request)
+    context={'allCategories':Categories.objects.all(),'allPosts':Posts.objects.all().order_by('-post_date')[:5],"subcat": subcat}
     return render(request,"adminPanel/home.html",context)
 
 
 
 def home2(request):
-    context={'allCategories':Categories.objects.all(),'allPosts':Posts.objects.all().order_by('-post_date')[:5]}
+    subcat= sub(request)
+    context={'allCategories':Categories.objects.all(),'allPosts':Posts.objects.all().order_by('-post_date')[:5],"subcat": subcat}
     return render(request,"hometemp/home2.html",context)
 
 
@@ -346,4 +350,38 @@ def getCategoryPosts(request, cat_id):
 
 
 def homepost(request,hpost_id):
-    return  render(request,"hometemp/home_post", {"Post_details":Posts.objects.get(id=hpost_id),'allCategories':Categories.objects.all} )
+    return render(request,"hometemp/home_post", {"Post_details":Posts.objects.get(id=hpost_id),'allCategories':Categories.objects.all} )
+
+
+
+@csrf_exempt
+def subscribe(request):
+    userID = request.POST.get('userID', None)
+    catID = request.POST.get('catID', None)
+    Categories.user.through.objects.create(categories_id=catID, user_id=userID)
+    data = {
+        'success': True
+    }
+    return JsonResponse(data)
+
+
+
+@csrf_exempt
+def unsubscribe(request):
+    userID = request.POST.get('userID', None)
+    catID = request.POST.get('catID', None)
+    Categories.user.through.objects.get(categories_id=catID, user_id=userID).delete()
+    data = {
+        'success': True
+    }
+    return JsonResponse(data)
+
+
+def sub(request):
+
+    catsub=Categories.objects.filter(user=request.user.id)
+    cat_sub=[]
+    for i in catsub:
+        cat_sub.append(i.id)
+    return cat_sub
+

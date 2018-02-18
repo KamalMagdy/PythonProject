@@ -36,7 +36,7 @@ class Posts(models.Model):
         return self.post_title
 
 
-# class Userslike(models.Model):
-#     like_post_id=models.ForeignKey(Posts)
-#     like_user_id=models.ForeignKey(User)
-#     state=models.IntegerField(max_length=200)
+class Userslike(models.Model):
+    like_post_id=models.ForeignKey(Posts)
+    like_user_id=models.ForeignKey(User)
+    state=models.IntegerField(max_length=200)

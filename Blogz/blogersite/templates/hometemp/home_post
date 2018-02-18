@@ -2,6 +2,7 @@
 
 {% load static %}
 
+
 {% block home_body %}
 
     <section id="blog-section">
@@ -35,8 +36,15 @@
                             <div class="container pull-left">
 
                                 <div class="row">
-                                    <button class="btn btn-primary  col-6">Like  {{ Post_details.id }}</button>
-                                    <button class="btn btn-warning col-6">Dislike {{ Post_details.id }}</button>
+                                    {% if user.is_authenticated %}
+
+                                        <button class="btn btn-primary  col-6 like "  type="submit" value="{{ Post_details.id }}">
+                                            Like
+                                        </button>
+                                        <button class="btn btn-warning col-6 dislike" user_ID="{{ request.user.id }}"
+                                                post_ID="{{ Post_details.id }}">Dislike
+                                        </button>
+
                                 </div>
                             </div>
 
@@ -48,6 +56,7 @@
 
 
                             </form>
+                        {% endif %}
 
                         </div>
 
@@ -56,6 +65,38 @@
             </div>
         </div>
     </section>
+    <script src="{% static 'assets/js/jquery-3.1.1.js ' %} "></script>
+<script>
 
+$(".like").on("click", function () {
+        // var user_ID = $(this).attr("user_ID");
+        var post_ID = $(this).val();
+        console.log(post_ID);
+
+
+        $.ajax({
+
+            url: "http://127.0.0.1/blogersite/homepost/like/7/",
+            type:"POST",
+            data: {
+                'post_ID': 8
+            },
+            dataType: 'json',
+            success: function (data) {
+                console.log("3aml like")
+                console.log("succ"+data)
+
+            },
+            error: function (error) {
+                console.log(error)
+            }
+
+
+        });
+
+    });
+
+
+</script>
 
 {% endblock %}

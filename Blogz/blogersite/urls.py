@@ -35,8 +35,6 @@ urlpatterns = [
     url(r'^login$', views.login_form),
     url(r'^logged_in_only$', views.logged_in_only),
     url(r'^home$', views.home),
-    # url(r'^categories$', views.home),
-    # url(r'^post_desc$', views.home),
     url(r'^register$', views.register),
     url(r'^allusers/$', views.all_users),
     url(r'^block/(?P<usr_id>[0-9]+$)', views.block),
@@ -52,4 +50,6 @@ urlpatterns = [
     url(r'^homepost/(?P<hpost_id>[0-9]+$)$', views.homepost),
     url(r'^subscribe/$', views.subscribe),
     url(r'^unsubscribe/$', views.unsubscribe),
+    url(r'^like/', views.like),
+    # url(r'^dislike$', views.dislike),
 ]

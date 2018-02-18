@@ -15,8 +15,7 @@ from .forms import TagForm
 from .models import TagNames
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-import re
-from django.db.models import Q
+from .models import Userslike
 
 def all_users(request):
     all_usr = User.objects.all()
@@ -37,7 +36,7 @@ def home2(request):
 
 
 
-
+@login_required
 def admin(request):
     return render(request, "adminPanel/Dashboard.html")
 
@@ -385,3 +384,19 @@ def sub(request):
         cat_sub.append(i.id)
     return cat_sub
 
+
+def like(request):
+    post_ID = request.POST.get('post_ID',None)
+    Userslike.objects.create(like_post_id_id=post_ID,like_user_id_id=request.user.id,state=1)
+
+    # likescount=Userslike.objects.all.filter(state = 1).count()
+    data={
+        'success':True
+    }
+    return JsonResponse(data)
+
+
+def dislike(request):
+    user_ID = request.POST.get("user_ID", None)
+    post_ID = request.POST.get("post_ID", None)
+    dislikescount = Userslike.objects.filter(state=0).count()

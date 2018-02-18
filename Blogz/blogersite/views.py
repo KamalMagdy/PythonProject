@@ -26,6 +26,14 @@ def home(request):
     return render(request,"adminPanel/home.html",context)
 
 
+
+def home2(request):
+    context={'allCategories':Categories.objects.all(),'allPosts':Posts.objects.all().order_by('-post_date')[:5]}
+    return render(request,"hometemp/home2.html",context)
+
+
+
+
 def admin(request):
     return render(request, "adminPanel/Dashboard.html")
 

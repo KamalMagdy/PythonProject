@@ -15,6 +15,7 @@ from .forms import TagForm
 from .models import TagNames
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import re
 from django.db.models import Q
 
@@ -25,15 +26,25 @@ def all_users(request):
 
 def home(request):
     subcat= sub(request)
-    context={'allCategories':Categories.objects.all(),'allPosts':Posts.objects.all().order_by('-post_date')[:5],"subcat": subcat}
+
+    context={'allCategories':Categories.objects.all(),'allPosts':Posts.objects.all().order_by('-post_date'),"subcat": subcat}
     return render(request,"adminPanel/home.html",context)
 
 
 
 def home2(request):
     subcat= sub(request)
+    post_list = Posts.objects.all()
+    page = request.GET.get('page', 1)
 
-    context={'allCategories':Categories.objects.all(),'allPosts':Posts.objects.all().order_by('-post_date')[:5],"subcat": subcat}
+    paginator = Paginator(post_list, 5)
+    try:
+        posts = paginator.page(page)
+    except PageNotAnInteger:
+        posts = paginator.page(1)
+    except EmptyPage:
+        posts = paginator.page(paginator.num_pages)
+    context={'allCategories':Categories.objects.all(),'allPosts':posts,"subcat": subcat}
     return render(request,"hometemp/home2.html",context)
 
 
@@ -381,3 +392,17 @@ def sub(request):
     for i in catsub:
         cat_sub.append(i.id)
     return cat_sub
+
+def index(request):
+    post_list = Posts.objects.all()
+    page = request.GET.get('page', 1)
+
+    paginator = Paginator(post_list, 5)
+    try:
+        posts = paginator.page(page)
+    except PageNotAnInteger:
+        posts = paginator.page(1)
+    except EmptyPage:
+        posts = paginator.page(paginator.num_pages)
+
+    return render(request, 'hometemp/home2.html', { 'allPosts': posts })

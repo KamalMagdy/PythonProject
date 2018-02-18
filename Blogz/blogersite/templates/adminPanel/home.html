@@ -46,6 +46,7 @@
 
 <script src="{% static 'bootstrap/jquery.min.js'%}"></script>
 <script src="{% static 'bootstrap/bootstrap.bundle.min.js'%}"></script>
+
 =======
 
 {% block main_block %}
@@ -71,7 +72,7 @@
             <div class></div>
 			<a style="margin-left:30px" class="col-6" href = "/blogersite/cat/{{cat.id}}">{{cat.cat_name}}</a>
 			{%if user.is_authenticated %}
-			<a class="col-4"  href = "#{{cat.id}}"><button class="subs" uid= "{{request.user.id}}" cid="{{cat.id}}">Subscribe</button></a><br>
+			<a class="col-4"  href = "#{{cat.id}}"><button class="subs" userID= "{{request.user.id}}" catID="{{cat.id}}">Subscribe</button></a><br>
 <br>
 			{%else%}
 
@@ -125,7 +126,7 @@
 
 </div>
 
->>>>>>> master
+<script src="{% static 'assets/js/home.js' %}"></script>
 </body>
 </html>
 

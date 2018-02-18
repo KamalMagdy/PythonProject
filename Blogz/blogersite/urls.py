@@ -50,5 +50,6 @@ urlpatterns = [
     url(r'^logout$', views.logout),
     url(r'^home2$', views.home2),
 
-
+    url(r'^subscribe/$', views.subscribe),
+    url(r'^unsubscribe/$', views.unsubscribe),
 ]

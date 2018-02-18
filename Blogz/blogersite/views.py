@@ -13,6 +13,8 @@ from .forms import PostForm
 from .models import Posts
 from .forms import TagForm
 from .models import TagNames
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 import re
 from django.db.models import Q
 
@@ -22,13 +24,16 @@ def all_users(request):
 
 
 def home(request):
-    context={'allCategories':Categories.objects.all(),'allPosts':Posts.objects.all().order_by('-post_date')[:5]}
+    subcat= sub(request)
+    context={'allCategories':Categories.objects.all(),'allPosts':Posts.objects.all().order_by('-post_date')[:5],"subcat": subcat}
     return render(request,"adminPanel/home.html",context)
 
 
 
 def home2(request):
-    context={'allCategories':Categories.objects.all(),'allPosts':Posts.objects.all().order_by('-post_date')[:5]}
+    subcat= sub(request)
+
+    context={'allCategories':Categories.objects.all(),'allPosts':Posts.objects.all().order_by('-post_date')[:5],"subcat": subcat}
     return render(request,"hometemp/home2.html",context)
 
 
@@ -328,21 +333,51 @@ def post_edit(request, post_id):
 
 
 def search(request):
-    #found_entries = Posts.objects.filter(post_title__icontains=request.GET['query']).order_by('-post_date')
-    #context = {"allPosts": found_entries}
-    #return render(request, "adminPanel/home.html", context)
 
     posts = Posts.objects.filter(post_title__icontains=request.GET['query'])
     try:
         tag=TagNames.objects.get(tag_name__icontains=request.GET['query'])
         posts2=Posts.objects.filter(post_tags=tag.id)
     except:
-        return render(request, "hometemp/home2.html",{'allPosts':posts})
+        return render(request, "hometemp/home2.html",{'allPosts':posts,'allCategories':Categories.objects.all()})
     else:
-        return render(request, "hometemp/home2.html",{'allPosts':posts2})
+        return render(request, "hometemp/home2.html",{'allPosts':posts2,'allCategories':Categories.objects.all()})
 
 
 def getCategoryPosts(request, cat_id):
     get_category = Categories.objects.get(id=cat_id)
-    context = {'allPosts':Posts.objects.filter(	post_cat_id=get_category.id).order_by('-post_date')}
+    context = {'allPosts':Posts.objects.filter(	post_cat_id=get_category.id).order_by('-post_date'),'allCategories':Categories.objects.all()}
     return render(request, "hometemp/home2.html", context)
+
+
+
+@csrf_exempt
+def subscribe(request):
+    userID = request.GET.get('userID', None)
+    catID = request.GET.get('catID', None)
+    Categories.user.through.objects.create(categories_id=catID, user_id=userID)
+    data = {
+        'success': True
+    }
+    return JsonResponse(data)
+
+
+
+@csrf_exempt
+def unsubscribe(request):
+    userID = request.GET.get('userID', None)
+    catID = request.GET.get('catID', None)
+    Categories.user.throgh.objects.filter(categories_id=catID, user_id=userID).delete()
+    data = {
+        'success': True
+    }
+    return JsonResponse(data)
+
+
+def sub(request):
+
+    catsub=Categories.objects.filter(user=request.user.id)
+    cat_sub=[]
+    for i in catsub:
+        cat_sub.append(i.id)
+    return cat_sub

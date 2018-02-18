@@ -353,8 +353,8 @@ def getCategoryPosts(request, cat_id):
 
 @csrf_exempt
 def subscribe(request):
-    userID = request.GET.get('userID', None)
-    catID = request.GET.get('catID', None)
+    userID = request.POST.get('userID', None)
+    catID = request.POST.get('catID', None)
     Categories.user.through.objects.create(categories_id=catID, user_id=userID)
     data = {
         'success': True
@@ -365,9 +365,9 @@ def subscribe(request):
 
 @csrf_exempt
 def unsubscribe(request):
-    userID = request.GET.get('userID', None)
-    catID = request.GET.get('catID', None)
-    Categories.user.throgh.objects.filter(categories_id=catID, user_id=userID).delete()
+    userID = request.POST.get('userID', None)
+    catID = request.POST.get('catID', None)
+    Categories.user.through.objects.get(categories_id=catID, user_id=userID).delete()
     data = {
         'success': True
     }

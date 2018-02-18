@@ -13,7 +13,7 @@ $(document).ready(function(){
 		$.ajax({
 
         url: 'subscribe/',
-        type: 'GET',
+        type: 'POST',
         data: {
           'userID': userID,
           'catID': catID

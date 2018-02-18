@@ -1,18 +1,13 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout as django_logout
 from django.contrib.auth.models import User
 from .forms import  RegUserForm
 from django.contrib.auth.forms import UserCreationForm
-from .forms import CategoryForm
-from .models import Categories
-from .forms import ForbiddenForm
-from .models import ForbiddenWords
-from .forms import PostForm
-from .models import Posts
-from .forms import TagForm
-from .models import TagNames
+from .forms import *
+from .models import *
+
 import re
 from django.db.models import Q
 
@@ -47,9 +42,9 @@ def unblock(request, usr_id):
 
 def update(request, usr_id):
     usr = User.objects.get(id=usr_id)
-    usr_form = UserForm(instance=usr)
+    usr_form = RegUserForm(instance=usr)
     if request.method == "POST":
-        usr_form = UserForm(request.POST, instance=usr)
+        usr_form = RegUserForm(request.POST, instance=usr)
         if usr_form.is_valid():
             usr_form.save()
             return HttpResponseRedirect("/blogersite/allusers/")
@@ -338,3 +333,118 @@ def getCategoryPosts(request, cat_id):
     get_category = Categories.objects.get(id=cat_id)
     context = {'allPosts':Posts.objects.filter(	post_cat_id=get_category.id).order_by('-post_date')}
     return render(request, "adminPanel/home.html", context)
+
+##################################################################
+#comments & reply
+#################################################################
+
+
+# def getThePost(request, post_id):
+#     get_posts = Posts.objects.get(id=post_id)
+#     context = {"allPosts": get_posts}
+#     return render(request, "adminPanel/post.html", context)
+#
+#
+# def addComment(request, post_id):
+#     print post_id, request.user
+#     if request.method == 'POST':
+#         comment = CommentForm(request.POST, request.FILES)
+#         if comment.is_valid():
+#             comment = comment.save(commit=False)
+#             # return an object that hasn't yet been saved to the database to do proccessing on it
+#         # comment.comment_body = wordsCleaner(comment.comment_body)
+#         comment.post = Posts.objects.get(id=post_id)
+#         # comment.User = User.objects.get(id = request.user.id)
+#         comment.comment_user_id_id = request.user.id
+#         comment.comment_post_id_id = post_id
+#
+#         comment.save()
+#         return redirect(request.path)
+#     return HttpResponseRedirect("/main/" + post_id + "/post")
+#
+#
+# def addReply(request, post_id, commentID):
+#     if request.method == 'POST':
+#         reply = CommentForm(request.POST, request.FILES)
+#         if reply.is_valid():
+#             reply = reply.save(commit=False)
+#         # reply.comment_body = wordsCleaner(reply.comment_body)
+#         reply.post = Posts.objects.get(id=post_id)
+#         # comment.User = User.objects.get(id = request.user.id)
+#         reply.comment_user_id_id = request.user.id
+#         reply.comment_post_id_id = post_id
+#         reply.reply_comment_id = Comment.objects.get(id=commentID)
+#
+#         reply.save()
+#         return redirect(request.path)
+#     return HttpResponseRedirect("/main/" + post_id + "/post")
+
+def postPage(request, post_id):
+    get_posts = Posts.objects.get(id=post_id)
+    context = {"allPosts": get_posts}
+    return render(request, "adminPanel/post.html", context)
+
+# def postPage(request,post_id):
+# 	post=Posts.objects.get(id =post_id)
+# 	comment=Comment.objects.filter(id= post_id)
+# 	reply=Reply.objects.filter(id= post_id)
+# 	context={'postshow':post , 'comment' : comment, 'reply' : reply}
+# 	return render(request, 'adminPanel/post.html' ,context)
+
+
+# def addComment(request, post_id):
+#     comment_post_id = Posts.objects.get(id = post_id)
+#     user_id = request.user.id
+#     if request.method == "POST":
+#         comment = CommentForm(request.POST)
+#         if comment.is_valid():
+#             comment = comment.save(commit=False)
+#             # return an object that hasn't yet been saved to the database to do processing on it
+#             comment.id = comment_post_id
+#             comment.id = user_id
+#             comment.checkForbidden()
+#             comment.save()
+#             return redirect('/blogersite/'+post_id+'/post')
+#     else:
+#         form = CommentForm()
+#         context = {"form": form}
+#     return render(request, 'adminPanel/add_comments.html', context)
+
+
+def addComment(request, post_id):
+    comment_post_id = Posts.objects.get(id = post_id)
+    user_id = request.user.id
+    if request.method == "POST":
+        comment = CommentForm(request.POST)
+        if comment.is_valid():
+            comment = comment.save(commit=False)
+            # return an object that hasn't yet been saved to the database to do processing on it
+            comment.id = comment_post_id
+            comment.id = user_id
+            comment.checkForbidden()
+            comment.save()
+            return redirect('/blogersite/'+post_id+'/post')
+    else:
+        form = CommentForm()
+        context = {"form": form}
+    return render(request, 'adminPanel/add_comments.html', context)
+
+
+
+
+def addReply(request, post_id, comment_id):
+    user_id = request.user.id
+    if request.method == "POST":
+        form = ReplyForm(request.POST)
+        if form.is_valid():
+            reply = form.save(commit=False)
+            reply.comment_post_id = post_id
+            reply.reply_comment_id = int(comment_id)
+            reply.comment_user_id = int(user_id)
+            reply.checkForbidden()
+            reply.save()
+            return redirect('/blogersite/post/'+post_id+'/show')
+    else:
+        form = ReplyForm()
+    return render(request, 'blogersite/reply_comment.html', {'form': form})
+

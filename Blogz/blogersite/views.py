@@ -55,9 +55,9 @@ def unblock(request, usr_id):
 
 def update(request, usr_id):
     usr = User.objects.get(id=usr_id)
-    usr_form = UserForm(instance=usr)
+    usr_form = RegUserForm(instance=usr)
     if request.method == "POST":
-        usr_form = UserForm(request.POST, instance=usr)
+        usr_form = RegUserForm(request.POST, instance=usr)
         if usr_form.is_valid():
             usr_form.save()
             return HttpResponseRedirect("/blogersite/allusers/")
@@ -328,21 +328,22 @@ def post_edit(request, post_id):
 
 
 def search(request):
-    #found_entries = Posts.objects.filter(post_title__icontains=request.GET['query']).order_by('-post_date')
-    #context = {"allPosts": found_entries}
-    #return render(request, "adminPanel/home.html", context)
 
     posts = Posts.objects.filter(post_title__icontains=request.GET['query'])
     try:
         tag=TagNames.objects.get(tag_name__icontains=request.GET['query'])
         posts2=Posts.objects.filter(post_tags=tag.id)
     except:
-        return render(request, "hometemp/home2.html",{'allPosts':posts})
+        return render(request, "hometemp/home2.html",{'allPosts':posts,'allCategories':Categories.objects.all})
     else:
-        return render(request, "hometemp/home2.html",{'allPosts':posts2})
+        return render(request, "hometemp/home2.html",{'allPosts':posts2,'allCategories':Categories.objects.all})
 
 
 def getCategoryPosts(request, cat_id):
     get_category = Categories.objects.get(id=cat_id)
-    context = {'allPosts':Posts.objects.filter(	post_cat_id=get_category.id).order_by('-post_date')}
+    context = {'allCategories':Categories.objects.all,'allPosts':Posts.objects.filter(	post_cat_id=get_category.id).order_by('-post_date')}
     return render(request, "hometemp/home2.html", context)
+
+
+def homepost(request,hpost_id):
+    return  render(request,"hometemp/home_post", {"Post_details":Posts.objects.get(id=hpost_id),'allCategories':Categories.objects.all} )

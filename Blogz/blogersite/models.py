@@ -24,6 +24,7 @@ class TagNames(models.Model):
     def __str__(self):
         return self.tag_name
 
+
 class Posts(models.Model):
     post_title = models.CharField(max_length=200)
     post_content = models.TextField()
@@ -33,3 +34,9 @@ class Posts(models.Model):
     post_cat = models.ForeignKey(Categories)
     def __str__(self):
         return self.post_title
+
+
+# class Userslike(models.Model):
+#     like_post_id=models.ForeignKey(Posts)
+#     like_user_id=models.ForeignKey(User)
+#     state=models.IntegerField(max_length=200)

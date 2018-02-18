@@ -49,6 +49,7 @@ urlpatterns = [
     url(r'^cat/(?P<cat_id>[0-9]+$)', views.getCategoryPosts),
     url(r'^logout$', views.logout),
     url(r'^home2$', views.home2),
+    url(r'^homepost/(?P<hpost_id>[0-9]+$)$', views.homepost),
 
 
 ]

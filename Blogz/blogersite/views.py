@@ -105,7 +105,7 @@ def register(request):
             reg_password = request.POST['password1']
             user = authenticate(username=reg_username, password=reg_password)
             login(request, user)
-            return HttpResponseRedirect("/blogersite/home")
+            return HttpResponseRedirect("/blogersite/home2")
     return render(request, "adminPanel/register.html",{"form":usr_form})
 
 
@@ -113,7 +113,7 @@ def register(request):
 def logout(request):
     django_logout(request)
     logout(request)
-    return HttpResponseRedirect("/blogersite/home")
+    return HttpResponseRedirect("/blogersite/home2")
 
 
 def login_form(request):
@@ -136,7 +136,7 @@ def login_form(request):
             login(request, user)  # this means we put the user id in the session
 
 
-            return HttpResponseRedirect("/blogersite/home")
+            return HttpResponseRedirect("/blogersite/home2")
         else:
 
             return render(request,"adminPanel/login_form.html",{"openreg":1})
@@ -337,12 +337,12 @@ def search(request):
         tag=TagNames.objects.get(tag_name__icontains=request.GET['query'])
         posts2=Posts.objects.filter(post_tags=tag.id)
     except:
-        return render(request, "adminPanel/home.html",{'allPosts':posts})
+        return render(request, "hometemp/home2.html",{'allPosts':posts})
     else:
-        return render(request, "adminPanel/home.html",{'allPosts':posts2})
+        return render(request, "hometemp/home2.html",{'allPosts':posts2})
 
 
 def getCategoryPosts(request, cat_id):
     get_category = Categories.objects.get(id=cat_id)
     context = {'allPosts':Posts.objects.filter(	post_cat_id=get_category.id).order_by('-post_date')}
-    return render(request, "adminPanel/home.html", context)
+    return render(request, "hometemp/home2.html", context)

@@ -1,5 +1,49 @@
 {% extends 'hometemp/basehome.html'%}
+{% load static %}
 {% block home_body %}
+
+    
+    <section id="blog-section" >
+     <div class="container">
+       <div class="row">
+         <div class="col-lg-8">
+           <div class="row">
+               {%  for posts in allPosts  %}
+              <div class="col-lg-6 col-md-6">
+             <aside>
+                <img src="{% static ""%}images/{{ posts.post_image }}" width="100%" height="100%" class="img-responsive">
+                <div class="content-title">
+				<div class="text-center">
+				<h3><a href="#">{{ posts.post_content }}</a></h3>
+				</div>
+				</div>
+				<div class="content-footer">
+				<img class="user-small-img" src="https://lh3.googleusercontent.com/-uwagl9sPHag/WM7WQa00ynI/AAAAAAAADtA/hio87ZnTpakcchDXNrKc_wlkHEcpH6vMwCJoC/w140-h148-p-rw/profile-pic.jpg">
+				<span style="font-size: 16px;color: #fff;"><a href = "#">{{posts.post_title}}</a></span>
+				<span class="pull-right">
+				<a href="#" data-toggle="tooltip" data-placement="left" title="Comments"><i class="fa fa-comments" ></i> 30</a>
+				<a href="#" data-toggle="tooltip" data-placement="right" title="Loved"><i class="fa fa-heart"></i> 20</a>
+				</span>
+                    <div class="user-ditels">
+                    <div class="user-img"><img src="https://lh3.googleusercontent.com/-uwagl9sPHag/WM7WQa00ynI/AAAAAAAADtA/hio87ZnTpakcchDXNrKc_wlkHEcpH6vMwCJoC/w140-h148-p-rw/profile-pic.jpg" class="img-responsive"></div>
+                        <span class="user-full-ditels">
+                        <h3>Tags:</h3>
+                        <p>{% for i in posts.post_tags.all %}{{ i.tag_name }}  {% endfor %}</p>
+                        </span>
+
+                    </div>
+				</div>
+             </aside>
+            </div>
+               {%  endfor  %}
+           </div>
+         </div>
+       </div>
+     </div>
+    </section>
+
+
+    -------------------
 
 
 

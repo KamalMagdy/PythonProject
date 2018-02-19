@@ -38,12 +38,12 @@
                                 <div class="row">
                                     {% if user.is_authenticated %}
 
-                                        <button class="btn btn-primary  col-6 like "  type="submit" value="{{ Post_details.id }}">
-                                            Like
-                                        </button>
-                                        <button class="btn btn-warning col-6 dislike" user_ID="{{ request.user.id }}"
-                                                post_ID="{{ Post_details.id }}">Dislike
-                                        </button>
+                                   <a href="/blogersite/like/{{ Post_details.id }}">     <button class="btn btn-primary  col-6 like "  type="submit" value="{{ Post_details.id }}">
+                                            Like  {{ likes.likes }}
+                                   </button></a>
+                                    <a href="/blogersite/dislike/{{ Post_details.id }}">    <button class="btn btn-warning col-6 dislike" user_ID="{{ request.user.id }}"
+                                                post_ID="{{ Post_details.id }}" >Dislike {{ likes.dislikes }}
+                                    </button></a>
 
                                 </div>
                             </div>
@@ -65,36 +65,36 @@
             </div>
         </div>
     </section>
+
+
     <script src="{% static 'assets/js/jquery-3.1.1.js ' %} "></script>
 <script>
 
-$(".like").on("click", function () {
-        // var user_ID = $(this).attr("user_ID");
-        var post_ID = $(this).val();
-        console.log(post_ID);
 
-
-        $.ajax({
-
-            url: "http://127.0.0.1/blogersite/homepost/like/7/",
-            type:"POST",
-            data: {
-                'post_ID': 8
-            },
-            dataType: 'json',
-            success: function (data) {
-                console.log("3aml like")
-                console.log("succ"+data)
-
-            },
-            error: function (error) {
-                console.log(error)
-            }
-
-
-        });
-
-    });
+{#$(".like").on("click", function () {#}
+{#        // var user_ID = $(this).attr("user_ID");#}
+{#        var post_ID = $(this).val();#}
+{#        console.log(post_ID);#}
+{##}
+{##}
+{#        $.ajax({#}
+{##}
+{#            url: "like/"+$(this).val(),#}
+{#            type:"POST",#}
+{#            dataType: 'json',#}
+{#            success: function (data) {#}
+{#                console.log("3aml like")#}
+{#                console.log(json)#}
+{##}
+{#            },#}
+{#            error: function (error) {#}
+{#                console.log(error)#}
+{#            }#}
+{##}
+{##}
+{#        });#}
+{##}
+{#    });#}
 
 
 </script>

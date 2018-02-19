@@ -16,6 +16,7 @@ from .models import TagNames
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from .models import Userslike
+from django.core.mail import send_mail
 
 def all_users(request):
     all_usr = User.objects.all()
@@ -36,7 +37,7 @@ def home2(request):
 
 
 
-@login_required
+
 def admin(request):
     return render(request, "adminPanel/Dashboard.html")
 
@@ -349,18 +350,28 @@ def getCategoryPosts(request, cat_id):
 
 
 def homepost(request,hpost_id):
-    return render(request,"hometemp/home_post", {"Post_details":Posts.objects.get(id=hpost_id),'allCategories':Categories.objects.all} )
+    dislikescount = Userslike.objects.filter(state=0, like_post_id_id=hpost_id).count()
+    likescount = Userslike.objects.filter(state=1,like_post_id_id=hpost_id).count()
+    data={
+        'likes':likescount,
+        'dislikes':dislikescount,
+    }
+    return render(request,"hometemp/home_post", {"likes":data,"Post_details":Posts.objects.get(id=hpost_id),'allCategories':Categories.objects.all} )
 
 
 
 @csrf_exempt
 def subscribe(request):
+    send_mail("Hello user","welcome to our site",'blogersiteH@gmail.com', [request.user.email])
+
     userID = request.POST.get('userID', None)
     catID = request.POST.get('catID', None)
     Categories.user.through.objects.create(categories_id=catID, user_id=userID)
     data = {
         'success': True
     }
+    # send_mail('Subscription: hello'+request.user.username+',you have subscribed successfully in ' +"any" +' welcome aboard',
+    #           'blogersiteH@gmail.com', [request.user.email])
     return JsonResponse(data)
 
 
@@ -385,18 +396,87 @@ def sub(request):
     return cat_sub
 
 
-def like(request):
-    post_ID = request.POST.get('post_ID',None)
-    Userslike.objects.create(like_post_id_id=post_ID,like_user_id_id=request.user.id,state=1)
+def like(request,post_ID):
+    try:
+        checker=Userslike.objects.get(like_post_id_id=post_ID,like_user_id_id=request.user.id)
+    except Exception:
+        Userslike.objects.create(like_post_id_id=post_ID, like_user_id_id=request.user.id, state=1)
+        likes=Userslike.objects.filter(state=1,like_post_id_id=post_ID).count()
+        data = {'likes': likes, }
+        return render(request, "hometemp/home_post", {"likes": data, "Post_details": Posts.objects.get(id=post_ID),
+                                                      'allCategories': Categories.objects.all})
+    # finally:
+    checker = Userslike.objects.get(like_post_id_id=post_ID, like_user_id_id=request.user.id)
+    if checker.state == 1:
+        checker.delete()
+        # checker.save()
+        likes = Userslike.objects.filter(state=1, like_post_id_id=post_ID).count()
+        data = {'likes': likes}
+        return render(request, "hometemp/home_post", {"likes":data,"Post_details": Posts.objects.get(id=post_ID),'allCategories': Categories.objects.all})
+    else:
+        checker.state=1
+        checker.save()
+        likes = Userslike.objects.filter(state=1, like_post_id_id=post_ID).count()
+        data = {'likes': likes}
+        return render(request, "hometemp/home_post", {"likes":data,"Post_details": Posts.objects.get(id=post_ID),'allCategories': Categories.objects.all})
+        # return render(request,"hometemp/home_post",{"likes":data,"Post_details":Posts.objects.get(id=post_ID),'allCategories':Categories.objects.all})
+    #
+    # if not checker:
+    #     Userslike.objects.create(like_post_id_id=post_ID, like_user_id_id=request.user.id, state=1)
+    #     likes=Userslike.objects.filter(state = 1,like_post_id_id=post_ID).count()
+    #     data = {'likes': likes,}
+    #     return render(request,"hometemp/home_post",{"likes":data,"Post_details":Posts.objects.get(id=post_ID),'allCategories':Categories.objects.all})
 
-    # likescount=Userslike.objects.all.filter(state = 1).count()
-    data={
-        'success':True
-    }
-    return JsonResponse(data)
+
+# def dislike(request,post_ID):
+#
+#     Userslike.objects.create(like_post_id_id=post_ID, like_user_id_id=request.user.id, state=0)
+#
+#
+#     dislikes = Userslike.objects.filter(state=0,like_post_id_id=post_ID).count()
+#     if dislikes ==10:
+#         Posts.objects.get(id=post_ID).delete()
+#         return HttpResponseRedirect("/blogersite/home2")
+#     else:
+#
+#         data = {
+#             'dislikes': dislikes
+#         }
+#         return render(request,"hometemp/home_post",{"likes":data,"Post_details":Posts.objects.get(id=post_ID),'allCategories':Categories.objects.all})
 
 
-def dislike(request):
-    user_ID = request.POST.get("user_ID", None)
-    post_ID = request.POST.get("post_ID", None)
-    dislikescount = Userslike.objects.filter(state=0).count()
+def dislike(request,post_ID):
+    try:
+        dischecker=Userslike.objects.get(like_post_id_id=post_ID,like_user_id_id=request.user.id)
+    except Exception:
+        Userslike.objects.create(like_post_id_id=post_ID, like_user_id_id=request.user.id, state=0)
+        dislikes=Userslike.objects.filter(state=0,like_post_id_id=post_ID).count()
+        data = {'likes': dislikes }
+        return render(request, "hometemp/home_post", {"likes": data, "Post_details": Posts.objects.get(id=post_ID),
+                                                      'allCategories': Categories.objects.all})
+    dislikes = Userslike.objects.filter(state=0, like_post_id_id=post_ID).count()
+    if dislikes==10:
+        Posts.objects.get(id=post_ID).delete()
+        return HttpResponseRedirect("/blogersite/home2")
+
+    dischecker = Userslike.objects.get(like_post_id_id=post_ID, like_user_id_id=request.user.id)
+    if dischecker.state == 0:
+        dischecker.delete()
+        dislikes = Userslike.objects.filter(state=0, like_post_id_id=post_ID).count()
+        data={'likes':dislikes}
+        return render(request, "hometemp/home_post", {"likes": data, "Post_details": Posts.objects.get(id=post_ID),'allCategories': Categories.objects.all})
+    else:
+        dischecker.state=0
+        dischecker.save()
+        dislikes = Userslike.objects.filter(state=0, like_post_id_id=post_ID).count()
+
+
+    # else:
+    #     dislikes = Userslike.objects.filter(state=0, like_post_id_id=post_ID).count()
+    #
+    #     data = {'dislikes': dislikes}
+    #     return render(request, "hometemp/home_post", {"likes": data, "Post_details": Posts.objects.get(id=post_ID),
+    #                                                       'allCategories': Categories.objects.all})
+
+
+

@@ -50,6 +50,6 @@ urlpatterns = [
     url(r'^homepost/(?P<hpost_id>[0-9]+$)$', views.homepost),
     url(r'^subscribe/$', views.subscribe),
     url(r'^unsubscribe/$', views.unsubscribe),
-    url(r'^like/', views.like),
-    # url(r'^dislike$', views.dislike),
+    url(r'^like/(?P<post_ID>[0-9]+$)', views.like),
+    url(r'^dislike/(?P<post_ID>[0-9]+$)', views.dislike),
 ]

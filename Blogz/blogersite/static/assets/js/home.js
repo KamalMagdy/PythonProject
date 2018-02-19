@@ -85,31 +85,31 @@ $(document).ready(function () {
     // });
 
 
-    $(".dislike").on("click", function () {
-        var user_ID = $(this).attr("user_ID");
-        var post_ID = $(this).attr("post_ID");
-        console.log(user_ID, post_ID);
-
-
-        $.ajax({
-            url: 'dislike',
-            type: 'POST',
-            data: {
-                'user_ID': user_ID,
-                'post_ID': post_ID
-            },
-            dataType: 'json',
-            success: function () {
-                console.log("3amlt dislike :D")
-            },
-            error: function () {
-                console.log("3andk error fel dislike")
-            }
-
-
-        });
-
-    });
+    // $(".dislike").on("click", function () {
+    //     var user_ID = $(this).attr("user_ID");
+    //     var post_ID = $(this).attr("post_ID");
+    //     console.log(user_ID, post_ID);
+    //
+    //
+    //     $.ajax({
+    //         url: 'dislike',
+    //         type: 'POST',
+    //         data: {
+    //             'user_ID': user_ID,
+    //             'post_ID': post_ID
+    //         },
+    //         dataType: 'json',
+    //         success: function () {
+    //             console.log("3amlt dislike :D")
+    //         },
+    //         error: function () {
+    //             console.log("3andk error fel dislike")
+    //         }
+    //
+    //
+    //     });
+    //
+    // });
 
 
 });

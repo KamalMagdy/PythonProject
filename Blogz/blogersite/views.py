@@ -7,6 +7,9 @@ from .forms import  RegUserForm
 from django.contrib.auth.forms import UserCreationForm
 from .forms import *
 from .models import *
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+
 
 import re
 from django.db.models import Q
@@ -21,8 +24,17 @@ def home(request):
     return render(request,"adminPanel/home.html",context)
 
 
+def home2(request):
+    subcat= sub(request)
+    context={'allCategories':Categories.objects.all(),'allPosts':Posts.objects.all().order_by('-post_date')[:5],"subcat": subcat}
+    return render(request,"hometemp/home2.html",context)
+
+
+
+@login_required
 def admin(request):
     return render(request, "adminPanel/Dashboard.html")
+
 
 def block(request, usr_id):
     us = User.objects.get(id=usr_id)
@@ -92,7 +104,7 @@ def register(request):
             reg_password = request.POST['password1']
             user = authenticate(username=reg_username, password=reg_password)
             login(request, user)
-            return HttpResponseRedirect("/blogersite/home")
+            return HttpResponseRedirect("/blogersite/home2")
     return render(request, "adminPanel/register.html",{"form":usr_form})
 
 
@@ -100,7 +112,7 @@ def register(request):
 def logout(request):
     django_logout(request)
     logout(request)
-    return HttpResponseRedirect("/blogersite/home")
+    return HttpResponseRedirect("/blogersite/home2")
 
 
 def login_form(request):
@@ -123,7 +135,7 @@ def login_form(request):
             login(request, user)  # this means we put the user id in the session
 
 
-            return HttpResponseRedirect("/blogersite/home")
+            return HttpResponseRedirect("/blogersite/home2")
         else:
 
             return render(request,"adminPanel/login_form.html",{"openreg":1})
@@ -314,19 +326,93 @@ def post_edit(request, post_id):
     return render(request, 'adminPanel/edit_post.html', {'form': form})
 
 
+
 def search(request):
-    #found_entries = Posts.objects.filter(post_title__icontains=request.GET['query']).order_by('-post_date')
-    #context = {"allPosts": found_entries}
-    #return render(request, "adminPanel/home.html", context)
 
     posts = Posts.objects.filter(post_title__icontains=request.GET['query'])
     try:
         tag=TagNames.objects.get(tag_name__icontains=request.GET['query'])
         posts2=Posts.objects.filter(post_tags=tag.id)
     except:
-        return render(request, "adminPanel/home.html",{'allPosts':posts})
+        return render(request, "hometemp/home2.html",{'allPosts':posts,'allCategories':Categories.objects.all})
     else:
-        return render(request, "adminPanel/home.html",{'allPosts':posts2})
+        return render(request, "hometemp/home2.html",{'allPosts':posts2,'allCategories':Categories.objects.all})
+
+
+def getCategoryPosts(request, cat_id):
+    get_category = Categories.objects.get(id=cat_id)
+    context = {'allCategories':Categories.objects.all,'allPosts':Posts.objects.filter(	post_cat_id=get_category.id).order_by('-post_date')}
+    return render(request, "hometemp/home2.html", context)
+
+
+def homepost(request,hpost_id):
+    get_posts = Posts.objects.get(id=hpost_id)
+    comment = Comment.objects.filter(comment_post_id = hpost_id)
+    context = {"Post_details": get_posts, "Comment": comment, 'allCategories':Categories.objects.all}
+    return render(request, "hometemp/home_post.html", context)
+
+    # return render(request,"hometemp/home_post.html", {"Post_details":Posts.objects.get(id=hpost_id),'allCategories':Categories.objects.all} )
+
+
+def postPage(request, post_id):
+    get_posts = Posts.objects.get(id=post_id)
+    comment = Comment.objects.filter(comment_post_id = post_id)
+    context = {"allPosts": get_posts, "Comment": comment}
+    return render(request, "adminPanel/post.html", context)
+
+
+
+@csrf_exempt
+def subscribe(request):
+    userID = request.POST.get('userID', None)
+    catID = request.POST.get('catID', None)
+    Categories.user.through.objects.create(categories_id=catID, user_id=userID)
+    data = {
+        'success': True
+    }
+    return JsonResponse(data)
+
+
+
+@csrf_exempt
+def unsubscribe(request):
+    userID = request.POST.get('userID', None)
+    catID = request.POST.get('catID', None)
+    Categories.user.through.objects.get(categories_id=catID, user_id=userID).delete()
+    data = {
+        'success': True
+    }
+    return JsonResponse(data)
+
+
+def sub(request):
+
+    catsub=Categories.objects.filter(user=request.user.id)
+    cat_sub=[]
+    for i in catsub:
+        cat_sub.append(i.id)
+    return cat_sub
+
+
+def like(request,post_ID):
+    # post_ID = request.POST.get('post_ID',None)
+    Userslike.objects.create(like_post_id_id=post_ID,like_user_id_id=request.user.id,state=1)
+
+    likescount=Userslike.objects.filter(state = 1).count()
+    data={
+        'success':True,
+        'count':likescount
+    }
+    return render(request,"hometemp1/home_post.html",{"like":data,"Post_details":Posts.objects.get(id=post_ID),'allCategories':Categories.objects.all})
+    # return JsonResponse(data)
+
+
+def dislike(request):
+    user_ID = request.POST.get("user_ID", None)
+    post_ID = request.POST.get("post_ID", None)
+    dislikescount = Userslike.objects.filter(state=0).count()
+
+
 
 
 def getCategoryPosts(request, cat_id):
@@ -381,7 +467,9 @@ def getCategoryPosts(request, cat_id):
 
 def postPage(request, post_id):
     get_posts = Posts.objects.get(id=post_id)
-    context = {"allPosts": get_posts}
+    comment = Comment.objects.filter(comment_post_id = post_id)
+    reply = Reply.objects.filter(reply_post_id = post_id)
+    context = {"allPosts": get_posts, "Comment": comment, "Reply" : reply}
     return render(request, "adminPanel/post.html", context)
 
 # def postPage(request,post_id):
@@ -412,15 +500,15 @@ def postPage(request, post_id):
 
 
 def addComment(request, post_id):
-    comment_post_id = Posts.objects.get(id = post_id)
-    user_id = request.user.id
+    comment_post = Posts.objects.get(id = post_id)
+    # return HttpResponse(comment_post_id)
+    # user_id = request.user.id
     if request.method == "POST":
         comment = CommentForm(request.POST)
         if comment.is_valid():
             comment = comment.save(commit=False)
-            # return an object that hasn't yet been saved to the database to do processing on it
-            comment.id = comment_post_id
-            comment.id = user_id
+            comment.comment_post_id = comment_post
+            # comment.id = user_id
             comment.checkForbidden()
             comment.save()
             return redirect('/blogersite/'+post_id+'/post')
@@ -430,21 +518,21 @@ def addComment(request, post_id):
     return render(request, 'adminPanel/add_comments.html', context)
 
 
-
-
 def addReply(request, post_id, comment_id):
+    reply_comment = Posts.objects.get(id = post_id)
+    comment_post = Comment.objects.get(id = comment_id)
     user_id = request.user.id
     if request.method == "POST":
         form = ReplyForm(request.POST)
         if form.is_valid():
             reply = form.save(commit=False)
-            reply.comment_post_id = post_id
-            reply.reply_comment_id = int(comment_id)
-            reply.comment_user_id = int(user_id)
+            reply.reply_post_id = reply_comment
+            reply.reply_comment_id = comment_post
+            # reply.comment_user_id = user_id
             reply.checkForbidden()
             reply.save()
-            return redirect('/blogersite/post/'+post_id+'/show')
+            return redirect('/blogersite/'+post_id+'/post')
     else:
         form = ReplyForm()
-    return render(request, 'blogersite/reply_comment.html', {'form': form})
-
+        context = {"form": form}
+    return render(request, 'adminPanel/reply_comment.html', context)

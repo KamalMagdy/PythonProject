@@ -15,7 +15,46 @@
     <article style="margin-top:30px;">{{ allPosts.post_content }}</article>
 
 
-{% block main_block %}
+</div>
 
+ <a class="btn btn-primary" onclick="location.href='/blogersite/post/{{postshow.id}}/comment' "> Add comment </a>
+
+</div>
+
+
+
+
+{% for comment in Comment %}
+
+<hr>
+
+<div class="row">
+<div class="col-md-12">
+
+    <p>COMMENT  |  {{ comment.comment_date }}  |  <strong>{{ comment.comment_user_id }}</strong></p>
+<div class="border-comment">
+    <p>{{ comment.comment_body|linebreaks }}</p>
+</div>
+
+<div class="row">
+<div class="col-md-9 col-md-offset-3"></div>
+{% for reply in Reply %}
+   
+    <p>REPLY  |  {{ reply.reply_date }}  |  <strong>{{ reply.reply_user_id }}</strong> </p>
+    <div class="border-reply">
+    <p>{{ reply.reply_body }}</p>
+  </div>
+{% empty %}
+</div>
+
+{% endfor %}
+
+</div>
+
+
+{% endfor %}
+
+
+{% block main_block %}
 
 {% endblock %}

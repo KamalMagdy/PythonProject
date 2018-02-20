@@ -1,0 +1,74 @@
+{%  extends '/base.html' %}
+{% block main_block %}
+
+<div class="container">
+
+    <div class="row">
+
+        <p><span> CATEGORY: </span>{{postshow.category}}</p>
+        <p><span>TITLE :    </span>{{postshow.title}}</p>
+
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-3">
+
+            <p><span>IMAGE:<br> </span><img style="width:200px; height:200px; " src="/static/{{postshow.image}}"/></p>
+
+        </div>
+
+        <div class="col-md-9">
+            <p><span> POST :  </span>{{postshow.post}}</p>
+        </div>
+
+    </div>
+
+    {% for comment in comment %}
+
+    <hr>
+
+    <div class="row">
+        <div class="col-md-12">
+
+            <p>COMMENT || {{ comment.created_date }} || <strong>{{ comment.author }}</strong></p>
+            <div class="border-comment">
+                <p>{{ comment.text|linebreaks }}</p>
+            </div>
+
+            <div class="row">
+                <div class="col-md-9 col-md-offset-3">
+                    {% for re in reply %}
+
+                    <p>REPLY || {{ re.created_date }} || <strong>{{ re.author }}</strong></p>
+                    <div class="border-reply">
+                        <p>{{ re.text|linebreaks }}</p>
+                    </div>
+                    {% empty %}
+                    <div class="border-reply">
+                        <p>No reply </p>
+                    </div>
+                </div>
+            </div>
+
+            {% endfor %}
+            <a class="btn btn-danger" onclick="location.href='/yallaBlog/post/{{postshow.id}}/{{comment.id}}/reply' ">
+                Add Reply </a>
+        </div>
+
+        {% empty %}
+
+        <div class="border-comment">
+            <p>No comments here yet </p>
+        </div>
+
+
+        {% endfor %}
+
+    </div>
+
+    <a class="btn btn-primary" onclick="location.href='/yallaBlog/post/{{postshow.id}}/comment' "> Add comment </a>
+
+</div>
+
+{% endblock %}

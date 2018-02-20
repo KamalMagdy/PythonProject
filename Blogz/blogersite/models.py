@@ -37,6 +37,10 @@ class Posts(models.Model):
     def __str__(self):
         return self.post_title
 
+    def __str__(self):
+        return str(self.id)
+
+
 
 class Comment(models.Model):
     comment_body = models.TextField()
@@ -61,13 +65,17 @@ class Comment(models.Model):
     def __str__(self):
         return self.comment_body
 
+    def __str__(self):
+        return str(self.id)
+
+
 
 class Reply(models.Model):
     reply_body = models.TextField()
     reply_date = models.DateTimeField(default=datetime.now())
-    reply_user_id = models.ForeignKey(User)
+    reply_user_id = models.ForeignKey(User, default=1)
     reply_post_id = models.ForeignKey(Posts)
-    reply_comment_id = models.ForeignKey('self', null=True, blank=True)
+    reply_comment_id = models.ForeignKey(Comment, null=True, blank=True)
 
     def checkForbidden(self):
         bad_words = ForbiddenWords.objects.all()
@@ -85,3 +93,9 @@ class Reply(models.Model):
 
     def __str__(self):
         return self.reply_body
+
+
+class Userslike(models.Model):
+    like_post_id=models.ForeignKey(Posts)
+    like_user_id=models.ForeignKey(User)
+    state=models.IntegerField(max_length=200)

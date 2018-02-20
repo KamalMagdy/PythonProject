@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render ,redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout as django_logout
@@ -565,7 +565,7 @@ def addReply(request, post_id, comment_id):
             return redirect('/blogersite/'+post_id+'/post')
     else:
         form = ReplyForm()
-        context = {"form": form}
+    context = {"form": form}
     return render(request, 'adminPanel/reply_comment.html', context)
 
 @csrf_exempt

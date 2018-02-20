@@ -7,9 +7,7 @@
 </head>
 <body>
 {% block main_block %}
-<a href="/blogersite/adminPanel/new_post/">
-    <button class="btn btn-primary pull-right">Add New Post</button>
-</a>
+
 <br>
 <div class="table-responsive">
     <table class=" table table-highlight table-striped table-hover">
@@ -33,6 +31,10 @@
         {% endfor %}
     </table>
 </div>
+
+    <div class="text-center"><a href="/blogersite/adminPanel/new_post/">
+    <button class="btn btn-primary pull-right">Add New Post</button>
+</a></div>
 {% endblock %}
 
 </body>

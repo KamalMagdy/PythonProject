@@ -9,17 +9,24 @@
 </head>
 <body>
     {% block main_block %}
+<div class="row">
+        <div class="col-2"></div>
+        <div class="col-8" style="border-radius: 25px; background-color: lightblue">
 
-<div class="container">
 <form method="POST" class=""> {% csrf_token%}
 
     {{form.as_p}}
+    <div class="text-center">
    <a href="/blogersite/allusers"><button type="submit" class="btn btn-primary"> Submit</button></a>
     <button type="reset" class="btn btn-warning">Reset</button>
+        </div>
+</div>
 
 </form>
+        <div class="col-2"></div>
+         </div>
 <!--<a href="/blogersite/allusers"><button>Home</button></a>-->
-</div>
+
 
 <script src="{% static 'bootstrap/jquery.min.js'%}"></script>
 <script src="{% static 'bootstrap/bootstrap.bundle.min.js'%}"></script>
@@ -29,3 +36,12 @@
 {% endblock %}
 </body>
 </html>
+
+
+
+
+
+
+
+
+

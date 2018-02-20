@@ -2,14 +2,17 @@
 
 <link rel="stylesheet" type="text/css" href=" {% static 'assets/css/home.css' %}">
 <link href=" {% static 'assets/css/css/bootstrap.css' %}" rel="stylesheet" type="text/css">
-<link href="css/font-awesome.css" rel="stylesheet" type="text/css">
-	<link href="css/style.css" rel="stylesheet" type="text/css">
-<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css"
-          rel="stylesheet">
-    <link href="http://fonts.googleapis.com/css?family=Roboto:400,700,300" rel='stylesheet'
-          type='text/css'>
-<script src="https://use.fontawesome.com/07b0ce5d10.js"></script>
+{#<link href="css/font-awesome.css" rel="stylesheet" type="text/css">#}
+{#<link href="css/style.css" rel="stylesheet" type="text/css">#}
+{#<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">#}
+{#<link href="http://fonts.googleapis.com/css?family=Roboto:400,700,300" rel='stylesheet' type='text/css'>#}
+{#<script src="https://use.fontawesome.com/07b0ce5d10.js"></script>#}
+{#<link href="{% static 'assets/css/font-awesome.css' %}">#}
+<link href="{% static 'assets/css/font-awesome.css' %}">
+<link href="{% static 'assets/css/pe-icon-7-stroke.css' %}" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css">
 
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 {%  block navbar %}
 
 <nav class="navbar navbar-inverse navbar-expand-lg">
@@ -20,23 +23,19 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-       <div  style="color:whitesmoke; font-size: 25px" class=" navbar-text pull-right "> Welcome {{ request.user.username }}</div>
-      <img class="navbar-brand img-responsive"  width="100px"  src="{% static 'images/blog.jpg' %}">
+        {% if user.is_authenticated %}
+       <div  style="color:whitesmoke; font-size: 25px" class=" navbar-text pull-right glyphicon glyphicon"> Welcome {{ request.user.username }}</div>
+        {% endif %}
+      <img class="rounded-circle"  width="75px"  src="{% static 'images/images.png' %}">
 
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
-        <li><a href="/blogersite/home2">Home</a></li>
+        <li><a href="/blogersite/home" style=" font-size: 20px; color: orangered"><button class="glyphicon glyphicon-home"> Home</button></a></li>
         <li class="dropdown">
-          <a class="dropdown-toggle" data-toggle="dropdown" href="#">Page 1 <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="#">Page 1-1</a></li>
-            <li><a href="#">Page 1-2</a></li>
-            <li><a href="#">Page 1-3</a></li>
-          </ul>
+
         </li>
-        <li><a href="#">Page 2</a></li>
-        <li><a href="#">Page 3</a></li>
+
       </ul>
       <ul class="nav navbar-nav navbar-right">
           <form class="navbar-form navbar-left"  method="GET" action="/blogersite/search/">
@@ -53,9 +52,9 @@
 
           {%if user.is_authenticated %}
 
-        <li><a href="/blogersite/logout"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+        <li><a href="/blogersite/logout"><span class="glyphicon glyphicon-user"></span> Logout</a></li>
       {% else %}
-   <li><a href="/blogersite/login"><span class="glyphicon glyphicon-user"></span> Login</a></li>
+   <li><a  href="/blogersite/login"><span class="glyphicon glyphicon-user"></span> Login</a></li>
                <li><a href="/blogersite/register"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
       {% endif %}
           {%if user.is_superuser %}
@@ -102,9 +101,9 @@
                        <a href = "/blogersite/cat/{{cat.id}}"> <button  class="categories-btn">{{cat.cat_name}} </button></a>
                        {%if user.is_authenticated %}
                        {% if cat.id in subcat%}
-                            <a>  <button class="subs" userID= "{{request.user.id}}" catID="{{cat.id}}">Unsubscribe</button></a>
+                            <a>  <button style="height: 35px" class="subs fa fa-rss " userID= "{{request.user.id}}" catID="{{cat.id}}"> Unsubscribe</button></a>
                         {%else%}
-                            <a>  <button class="subs" userID= "{{request.user.id}}" catID="{{cat.id}}">Subscribe</button></a>
+                            <a>  <button style="height: 35px" class="subs fa fa-rss" userID= "{{request.user.id}}" catID="{{cat.id}}"> Subscribe</button></a>
                         {%endif%}
 
                             {%endif%}
@@ -124,8 +123,9 @@
 
 {% endblock %}
 <!-- end home sidebar -->
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js "></script>
 <script src=" {% static 'assets/js/jquery-3.1.1.js' %}"></script>
 <script src=" {% static 'assets/js/bootstrap.js' %}"></script>
 <script src="https://use.fontawesome.com/07b0ce5d10.js"></script>

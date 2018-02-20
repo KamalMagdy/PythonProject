@@ -6,13 +6,16 @@
 </head>
 <body>
 {% block main_block %}
-<a href = "/blogersite/adminPanel/new_cat/"><button class="btn btn-primary pull-right" >Add New Category</button></a>
-	<br>
+
+
 <div class="table-responsive">
 	<table class=" table table-striped table-hover ">
+     <thead class="thead-dark">
 		<th>Category name</th>
 		<th colspan="3" class="text-center">Options</th>
+        </thead>
 		{%  for cat in allCategories  %}
+
 		<tr>
 			<td>{{cat.cat_name}}</td>
 			<td><a href = "/blogersite/adminPanel/{{cat.id}}/show"><button class="btn btn-info" >Show more</button></a></td>
@@ -21,7 +24,11 @@
 		</tr>
 		{%  endfor  %}
 	</table>
+
 	</div>
+    <div class="text-center">
+    <a href = "/blogersite/adminPanel/new_cat/"><button class="btn btn-primary" >Add New Category</button></a>
+    </div>
 {% endblock %}
 
 </body>

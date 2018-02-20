@@ -56,15 +56,15 @@ $(document).ready(function () {
     });
 
 
-    // $(".like").on("click", function () {
-    //     // var user_ID = $(this).attr("user_ID");
+    // $("#like").on("click", function () {
+    //
     //     var post_ID = $(this).val();
-    //     console.log(post_ID);
+    //     // console.log(post_ID);
     //
     //
     //     $.ajax({
     //
-    //         url: "like",
+    //         url: "bloggersite/like/"+post_ID,
     //         type:"POST",
     //         data: {
     //             'post_ID': post_ID

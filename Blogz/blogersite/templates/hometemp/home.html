@@ -17,11 +17,11 @@
                                                 href="/blogersite/homepost/{{ posts.id }}">{{ posts.post_title }}</a></span>
                                     </div>
 
-                                    <img src="{% static "" %}images/{{ posts.post_image }}" width="100%"
-                                         class="img-responsive">
+                                   <a href="/blogersite/homepost/{{ posts.id }}"> <img src="{% static "" %}images/{{ posts.post_image }}" width="100%"
+                                         class="img-responsive"></a>
                                     <div class="content-title">
                                         <div class="text-center">
-                                            <h3> {{ posts.post_content }}</h3>
+                                            <h3> {{ posts.post_content|slice:"0:33" }}</h3>
                                         </div>
                                     </div>
                                     <div class="content-footer">
@@ -68,3 +68,4 @@
 
 
 {% endblock %}
+<script src="{% static 'assets/js/home.js' %}"></script>

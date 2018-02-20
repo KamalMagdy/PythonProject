@@ -35,8 +35,63 @@ class Posts(models.Model):
     def __str__(self):
         return self.post_title
 
+    def __str__(self):
+        return str(self.id)
+
 
 class Userslike(models.Model):
     like_post_id=models.ForeignKey(Posts)
     like_user_id=models.ForeignKey(User)
     state=models.IntegerField(max_length=200)
+
+class Comment(models.Model):
+    comment_body = models.TextField()
+    comment_date = models.DateTimeField(default=datetime.now())
+    comment_user_id = models.ForeignKey(User)
+    comment_post_id = models.ForeignKey(Posts)
+
+    def checkForbidden(self):
+        bad_words = ForbiddenWords.objects.all()
+        word_temp = ""
+        comment_check = self.comment_body.split()
+        for word in comment_check:
+            for bad in bad_words:
+                if word == bad.forbiddenWord:
+                    word = len(word) * "*"
+                    break
+            word_temp += " "
+            word_temp += word
+        self.comment_body = word_temp
+        self.save()
+
+    def __str__(self):
+        return self.comment_body
+
+    def __str__(self):
+        return str(self.id)
+
+class Reply(models.Model):
+    reply_body = models.TextField()
+    reply_date = models.DateTimeField(default=datetime.now())
+    reply_user_id = models.ForeignKey(User, default=1)
+    reply_post_id = models.ForeignKey(Posts)
+    reply_comment_id = models.ForeignKey(Comment, null=True, blank=True)
+
+    def checkForbidden(self):
+        bad_words = ForbiddenWords.objects.all()
+        word_temp = ""
+        reply_check = self.reply_body.split()
+        for word in reply_check:
+            for bad in bad_words:
+                if word == bad.forbiddenWord:
+                    word = len(word) * "*"
+                    break
+            word_temp += " "
+            word_temp += word
+        self.reply_body = word_temp
+        self.save()
+
+    def __str__(self):
+        return self.reply_body
+
+

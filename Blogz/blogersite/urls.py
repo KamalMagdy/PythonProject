@@ -34,7 +34,6 @@ urlpatterns = [
     url(r'^admin', views.admin),
     url(r'^login$', views.login_form),
     url(r'^logged_in_only$', views.logged_in_only),
-    url(r'^home$', views.home),
     url(r'^register$', views.register),
     url(r'^allusers/$', views.all_users),
     url(r'^block/(?P<usr_id>[0-9]+$)', views.block),

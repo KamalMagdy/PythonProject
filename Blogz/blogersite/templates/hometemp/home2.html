@@ -1,43 +1,70 @@
-{% extends 'hometemp/basehome.html'%}
+{% extends 'hometemp/basehome.html' %}
 {% load static %}
 {% block home_body %}
 
 
-    <section id="blog-section" >
-     <div class="container">
-       <div class="row">
-         <div class="col-lg-8">
-           <div class="row">
-               {%  for posts in allPosts  %}
-              <div class="col-lg-6 col-md-6" >
-             <aside>
-             <div class="content-footer">
+    <section id="blog-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="row">
+                        {% for posts in allPosts %}
+                            <div class="col-lg-6 col-md-6">
+                                <aside>
+                                    <div class="content-footer">
 
-              <span style="font-size: 25px;color: #fff;"><a href = "/blogersite/homepost/{{ posts.id }}">{{posts.post_title}}</a></span>
-             </div>
+                                        <span style="font-size: 25px;color: #fff;"><a
+                                                href="/blogersite/homepost/{{ posts.id }}">{{ posts.post_title }}</a></span>
+                                    </div>
 
-                <img src="{% static ""%}images/{{ posts.post_image }}" width="100%" class="img-responsive">
-                <div class="content-title">
-				<div class="text-center">
-				<h3> {{ posts.post_content}}</h3>
-				</div>
-				</div>
-				<div class="content-footer">
+                                    <img src="{% static "" %}images/{{ posts.post_image }}" width="100%"
+                                         class="img-responsive">
+                                    <div class="content-title">
+                                        <div class="text-center">
+                                            <h3> {{ posts.post_content }}</h3>
+                                        </div>
+                                    </div>
+                                    <div class="content-footer">
                <span> <h3>Tags: </h3>
-                   <p style="font-size: 20px">{% for i in posts.post_tags.all %}{{'#'}}{{ i.tag_name }}  {% endfor %}</p></span>
-				</div>
-             </aside>
+                   <p style="font-size: 20px">{% for i in posts.post_tags.all %}{{ '#' }}
+                       {{ i.tag_name }}  {% endfor %}</p></span>
+                                    </div>
+                                </aside>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
             </div>
-               {%  endfor  %}
-           </div>
-         </div>
-       </div>
-     </div>
+        </div>
     </section>
 
 
-    -------------------
+    <footer>
+       {% if allPosts.has_other_pages %}
+        <ul class="pagination">
+            {% if allPosts.has_previous %}
+                <li><a href="?page={{ allPosts.previous_page_number }}">&laquo;</a></li>
+            {% else %}
+                <li class="disabled"><span>&laquo;</span></li>
+            {% endif %}
+            {% for i in allPosts.paginator.page_range %}
+                {% if allPosts.number == i %}
+                    <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                {% else %}
+                    <li><a href="?page={{ i }}">{{ i }}</a></li>
+                {% endif %}
+            {% endfor %}
+            {% if allPosts.has_next %}
+                <li><a href="?page={{ allPosts.next_page_number }}">&raquo;</a></li>
+            {% else %}
+                <li class="disabled"><span>&raquo;</span></li>
+            {% endif %}
+        </ul>
+    {% endif %}
+
+    </footer>
 
 
 
-{%  endblock %}
+
+{% endblock %}

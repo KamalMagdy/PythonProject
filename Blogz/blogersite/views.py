@@ -17,23 +17,28 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from .models import Userslike
 from django.core.mail import send_mail
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 def all_users(request):
     all_usr = User.objects.all()
     return render(request, "adminPanel/all_users.html", {"all_usrs": all_usr})
 
 
-def home(request):
-    subcat= sub(request)
-    context={'allCategories':Categories.objects.all(),'allPosts':Posts.objects.all().order_by('-post_date')[:5],"subcat": subcat}
-    return render(request,"adminPanel/home.html",context)
-
-
 
 def home2(request):
-    subcat= sub(request)
-    context={'allCategories':Categories.objects.all(),'allPosts':Posts.objects.all().order_by('-post_date')[:5],"subcat": subcat}
-    return render(request,"hometemp/home2.html",context)
+    subcat = sub(request)
+    post_list = Posts.objects.all().order_by('-post_date')
+    page = request.GET.get('page', 1)
+    paginator = Paginator(post_list, 5)
+    try:
+        posts = paginator.page(page)
+    except PageNotAnInteger:
+        posts = paginator.page(1)
+    except EmptyPage:
+        posts = paginator.page(paginator.num_pages)
+    context = {'allCategories': Categories.objects.all(), 'allPosts': posts, "subcat": subcat}
+    return render(request, "hometemp/home2.html", context)
+
 
 
 
@@ -350,19 +355,19 @@ def getCategoryPosts(request, cat_id):
 
 
 def homepost(request,hpost_id):
+    subcat = sub(request)
     dislikescount = Userslike.objects.filter(state=0, like_post_id_id=hpost_id).count()
     likescount = Userslike.objects.filter(state=1,like_post_id_id=hpost_id).count()
     data={
         'likes':likescount,
         'dislikes':dislikescount,
     }
-    return render(request,"hometemp/home_post", {"likes":data,"Post_details":Posts.objects.get(id=hpost_id),'allCategories':Categories.objects.all} )
+    return render(request,"hometemp/home_post", {"likes":data,"Post_details":Posts.objects.get(id=hpost_id),'allCategories':Categories.objects.all,"subcat": subcat} )
 
 
 
 @csrf_exempt
 def subscribe(request):
-    send_mail("Hello user","welcome to our site",'blogersiteH@gmail.com', [request.user.email])
 
     userID = request.POST.get('userID', None)
     catID = request.POST.get('catID', None)
@@ -370,8 +375,12 @@ def subscribe(request):
     data = {
         'success': True
     }
-    # send_mail('Subscription: hello'+request.user.username+',you have subscribed successfully in ' +"any" +' welcome aboard',
-    #           'blogersiteH@gmail.com', [request.user.email])
+
+    cat=Categories.objects.get(id=catID)
+    cat_name=cat.cat_name
+    body = ' Welcome '+request.user.username+' to BlogerSite \n you have successfuly subscribed in '+cat_name+' Category'
+    send_mail("Subscribtion:", body, 'blogersiteH@gmail.com', [request.user.email], fail_silently=False)
+
     return JsonResponse(data)
 
 
@@ -419,13 +428,6 @@ def like(request,post_ID):
         likes = Userslike.objects.filter(state=1, like_post_id_id=post_ID).count()
         data = {'likes': likes}
         return render(request, "hometemp/home_post", {"likes":data,"Post_details": Posts.objects.get(id=post_ID),'allCategories': Categories.objects.all})
-        # return render(request,"hometemp/home_post",{"likes":data,"Post_details":Posts.objects.get(id=post_ID),'allCategories':Categories.objects.all})
-    #
-    # if not checker:
-    #     Userslike.objects.create(like_post_id_id=post_ID, like_user_id_id=request.user.id, state=1)
-    #     likes=Userslike.objects.filter(state = 1,like_post_id_id=post_ID).count()
-    #     data = {'likes': likes,}
-    #     return render(request,"hometemp/home_post",{"likes":data,"Post_details":Posts.objects.get(id=post_ID),'allCategories':Categories.objects.all})
 
 
 # def dislike(request,post_ID):
@@ -468,7 +470,7 @@ def dislike(request,post_ID):
     else:
         dischecker.state=0
         dischecker.save()
-        dislikes = Userslike.objects.filter(state=0, like_post_id_id=post_ID).count()
+        # dislikes = Userslike.objects.filter(state=0, like_post_id_id=post_ID).count()
 
 
     # else:

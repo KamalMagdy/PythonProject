@@ -71,32 +71,6 @@
 <script>
 
 
-{#$(".like").on("click", function () {#}
-{#        // var user_ID = $(this).attr("user_ID");#}
-{#        var post_ID = $(this).val();#}
-{#        console.log(post_ID);#}
-{##}
-{##}
-{#        $.ajax({#}
-{##}
-{#            url: "like/"+$(this).val(),#}
-{#            type:"POST",#}
-{#            dataType: 'json',#}
-{#            success: function (data) {#}
-{#                console.log("3aml like")#}
-{#                console.log(json)#}
-{##}
-{#            },#}
-{#            error: function (error) {#}
-{#                console.log(error)#}
-{#            }#}
-{##}
-{##}
-{#        });#}
-{##}
-{#    });#}
-
-
 </script>
 
 {% endblock %}

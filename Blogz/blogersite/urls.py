@@ -53,8 +53,9 @@ urlpatterns = [
     url(r'^like/(?P<post_ID>[0-9]+$)', views.like),
     # url(r'^dislike$', views.dislike),
 
-    url(r'^(?P<post_id>[0-9]+)/post$', views.postPage),
+    # url(r'^(?P<post_id>[0-9]+)/post$', views.postPage),
     url(r'^homepost/(?P<post_id>[0-9]+)/addComment$', views.addComment),
+    url(r'^addcomment$', views.commentAjax, name='comment'),
     url(r'^(?P<post_id>[0-9]+)/(?P<comment_id>[0-9]+)/addReply$', views.addReply),
     # url(r'^(?P<post_id>[0-9]+)/post/$', views.getThePost),
 

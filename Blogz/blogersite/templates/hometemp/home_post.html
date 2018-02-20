@@ -4,7 +4,7 @@
 
 
 {% block home_body %}
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <section id="blog-section">
     <div class="container">
         <div class="row">
@@ -55,14 +55,34 @@
                         </div>
 
                         <div class="pull-left">
-                            <form method="POST" action="5/addComment">
-                                {% csrf_token %}
-                                <span style="font-size: 30px">Comment:</span><textarea></textarea>
-                                <a href="add_comments.html">
-                                    <button type="submit" class="btn btn-primary">Add Comment</button>
-                                </a>
-                            </form>
+                                <span style="font-size: 30px">Comment:</span><textarea id="textarea"> </textarea>
+                                    <button class="btn btn-primary" id="khaled" >Add Comment</button>
 
+                        <script>
+                            $(document).ready(function(){
+                                $('#khaled').on("click" , function(){
+                                 var comment= $('#textarea').val()
+                                    $.ajax({
+                                        url : '{% url 'comment' %}',
+                                        type:  'POST',
+                                        data : {"comment": comment ,
+                                                "userid": {{User}} ,
+                                                 "postid":{{ postid }}
+                                                  },
+                                        success: function(data){
+                                        console.log("khaled");
+                                        },
+                                        error : function(){
+
+                                        },
+                                    });
+
+                                });
+
+                            });
+
+
+                        </script>
 
                                 {% for comment in Comment %}
 
@@ -127,5 +147,6 @@ $("")
 
 
 </script>
+
 
 {% endblock %}

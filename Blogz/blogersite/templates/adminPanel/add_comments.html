@@ -1,4 +1,5 @@
-{% block main_block %}
+
+{% block comment_block %}
 
    <div class="container">
  <div class="row">
@@ -6,7 +7,8 @@
 
     <h1>New comment</h1>
 
-    <form method="POST" >{% csrf_token %}
+    <form method="POST">
+        {% csrf_token %}
        {{ form.as_p }}
         <button type="submit" class="btn btn-primary">Send</button>
     </form>
@@ -16,3 +18,7 @@
     
 {% endblock %}
 
+      <!--<span style="font-size: 30px">Content:</span><input name="comment_body" {{ form.comment_body.id_for_input }}></h3>-->
+
+
+      <!--<a href="/blogersite/homepost/5" ><button type="submit" class="btn btn-primary">Send</button> </a>-->

@@ -45,7 +45,7 @@ class Posts(models.Model):
 class Comment(models.Model):
     comment_body = models.TextField()
     comment_date = models.DateTimeField(default=datetime.now())
-    comment_user_id = models.ForeignKey(User, default=1)
+    comment_user_id = models.ForeignKey(User)
     comment_post_id = models.ForeignKey(Posts)
 
     def checkForbidden(self):

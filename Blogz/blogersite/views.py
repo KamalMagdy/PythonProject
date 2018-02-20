@@ -346,19 +346,20 @@ def getCategoryPosts(request, cat_id):
 
 
 def homepost(request,hpost_id):
+    userid =request.user.id
     get_posts = Posts.objects.get(id=hpost_id)
     comment = Comment.objects.filter(comment_post_id = hpost_id)
-    context = {"Post_details": get_posts, "Comment": comment, 'allCategories':Categories.objects.all}
+    context = {"Post_details": get_posts,"postid" : hpost_id,  "User" : userid, "Comment": comment, 'allCategories':Categories.objects.all}
     return render(request, "hometemp/home_post.html", context)
 
     # return render(request,"hometemp/home_post.html", {"Post_details":Posts.objects.get(id=hpost_id),'allCategories':Categories.objects.all} )
 
 
-def postPage(request, post_id):
-    get_posts = Posts.objects.get(id=post_id)
-    comment = Comment.objects.filter(comment_post_id = post_id)
-    context = {"allPosts": get_posts, "Comment": comment}
-    return render(request, "adminPanel/post.html", context)
+# def postPage(request, post_id):
+#     get_posts = Posts.objects.get(id=post_id)
+#     comment = Comment.objects.filter(comment_post_id = post_id)
+#     context = {"allPosts": get_posts, "Comment": comment}
+#     return render(request, "adminPanel/post.html", context)
 
 
 
@@ -465,12 +466,12 @@ def getCategoryPosts(request, cat_id):
 #         return redirect(request.path)
 #     return HttpResponseRedirect("/main/" + post_id + "/post")
 
-def postPage(request, post_id):
-    get_posts = Posts.objects.get(id=post_id)
-    comment = Comment.objects.filter(comment_post_id = post_id)
-    reply = Reply.objects.filter(reply_post_id = post_id)
-    context = {"allPosts": get_posts, "Comment": comment, "Reply" : reply}
-    return render(request, "adminPanel/post.html", context)
+# def postPage(request, post_id):
+#     get_posts = Posts.objects.get(id=post_id)
+#     comment = Comment.objects.filter(comment_post_id = post_id)
+#     reply = Reply.objects.filter(reply_post_id = post_id)
+#     context = {"allPosts": get_posts, "Comment": comment, "Reply" : reply}
+#     return render(request, "adminPanel/post.html", context)
 
 # def postPage(request,post_id):
 # 	post=Posts.objects.get(id =post_id)
@@ -500,6 +501,8 @@ def postPage(request, post_id):
 
 
 def addComment(request, post_id):
+    form = CommentForm()
+
     comment_post = Posts.objects.get(id = post_id)
     # return HttpResponse(comment_post_id)
     # user_id = request.user.id
@@ -511,10 +514,10 @@ def addComment(request, post_id):
             # comment.id = user_id
             comment.checkForbidden()
             comment.save()
-            return redirect('/blogersite/'+post_id+'/post')
+            return redirect('/blogersite/homepost/'+post_id)
     else:
         form = CommentForm()
-        context = {"form": form}
+    context = {"form": form}
     return render(request, 'adminPanel/add_comments.html', context)
 
 
@@ -536,3 +539,26 @@ def addReply(request, post_id, comment_id):
         form = ReplyForm()
         context = {"form": form}
     return render(request, 'adminPanel/reply_comment.html', context)
+
+@csrf_exempt
+def commentAjax(request):
+    comment =request.POST['comment']
+
+    userid =request.POST['userid']
+    user = User.objects.get(id=userid)
+
+    postid =request.POST['postid']
+    post = Posts.objects.get(id=postid)
+
+    newcomm =Comment.objects.create(comment_body=comment, comment_post_id=post , comment_user_id=user )
+    newcomm.checkForbidden()
+    newcomm.save()
+
+    # cont=Comment.objects.get(id=comment)
+
+    # return redirect('/bloggersite/homepost/'+postid)
+    return HttpResponse()
+
+
+
+

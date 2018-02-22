@@ -100,11 +100,26 @@
                         {% for cat in allCategories%}
                        <a href = "/blogersite/cat/{{cat.id}}"> <button  class="categories-btn">{{cat.cat_name}} </button></a>
                        {%if user.is_authenticated %}
-                       {% if cat.id in subcat%}
-                            <a>  <button style="height: 35px" class="subs fa fa-rss " userID= "{{request.user.id}}" catID="{{cat.id}}"> Unsubscribe</button></a>
+
+                           {% if locksubs == 1 %}
+
+
+
+
+                               {% else %}
+                            {% if cat.id in subcat%}
+                            <a>  <button   style="height: 35px" class="subs fa fa-rss "  userID= "{{request.user.id}}" catID="{{cat.id}}"> Unsubscribe</button></a>
                         {%else%}
-                            <a>  <button style="height: 35px" class="subs fa fa-rss" userID= "{{request.user.id}}" catID="{{cat.id}}"> Subscribe</button></a>
+                            <a>  <button {% if locksubs == 1 %} disabled="true" {% endif %} style="height: 35px" class="subs fa fa-rss" userID= "{{request.user.id}}" catID="{{cat.id}}"> Subscribe</button></a>
                         {%endif%}
+                           {% endif %}
+
+
+{#                       {% if cat.id in subcat%}#}
+{#                            <a>  <button   style="height: 35px" class="subs fa fa-rss "  userID= "{{request.user.id}}" catID="{{cat.id}}"> Unsubscribe</button></a>#}
+{#                        {%else%}#}
+{#                            <a>  <button {% if locksubs == 1 %} disabled="true" {% endif %} style="height: 35px" class="subs fa fa-rss" userID= "{{request.user.id}}" catID="{{cat.id}}"> Subscribe</button></a>#}
+{#                        {%endif%}#}
 
                             {%endif%}
 
@@ -123,10 +138,11 @@
 
 {% endblock %}
 <!-- end home sidebar -->
+<script src=" {% static 'assets/js/jquery-3.1.1.js' %}"></script>
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 <script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js "></script>
-<script src=" {% static 'assets/js/jquery-3.1.1.js' %}"></script>
+
 <script src=" {% static 'assets/js/bootstrap.js' %}"></script>
 <script src="https://use.fontawesome.com/07b0ce5d10.js"></script>
 <script src="{% static 'assets/js/home.js' %}"></script>
@@ -152,5 +168,3 @@
         }
     }
 </script>
-
-

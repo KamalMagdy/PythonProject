@@ -105,11 +105,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL=os.path.join(BASE_DIR,"blogersite/static/assets/")
-LOGIN_URL = 'blogersite/login_form'
+LOGIN_URL = '/bloggersite/'
 # REGIESTER_URL='/register'
 MEDIA_ROOT= os.path.join(BASE_DIR, 'blogersite/static/images')
 MEDIA_URL= "blogersite/"
-# LOGOUT_REDIRECT_URL = '/blogersite/home'
+LOGOUT_REDIRECT_URL = '/blogersite/login_form/'
 
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'

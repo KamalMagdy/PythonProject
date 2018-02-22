@@ -193,7 +193,7 @@ def category_edit(request, cat_id):
 
 
 #######################################
-# ForbiddentWords
+#           Forbidden Words           #
 #######################################
 @login_required
 def allForbidden(request):
@@ -307,13 +307,13 @@ def post_edit(request, post_id):
     post = Posts.objects.get(id=post_id)
 
     if request.method == "POST":
-        form = PostForm(request.POST, request.FILES)
+        form = PostForm(request.POST, request.FILES,instance=post)
         if form.is_valid():
             form.save()
         return HttpResponseRedirect('/blogersite/allPosts/')
     else:
         form = PostForm(instance=post)
-    return render(request, 'adminPanel/edit_post.html', {'form': form})
+    return render(request, 'adminPanel/new_post.html', {'form': form})
 
 
 ####################################################
@@ -327,15 +327,15 @@ def search(request):
         tag=TagNames.objects.get(tag_name__icontains=request.GET['query'])
         posts2=Posts.objects.filter(post_tags=tag.id)
     except:
-        return render(request, "hometemp/home.html",{'allPosts':posts,'allCategories':Categories.objects.all})
+        return render(request, "hometemp/home.html",{'allPosts':posts,'allCategories':Categories.objects.all,"locksubs":1})
     else:
-        return render(request, "hometemp/home.html",{'allPosts':posts2,'allCategories':Categories.objects.all})
+        return render(request, "hometemp/home.html",{'allPosts':posts2,'allCategories':Categories.objects.all,"locksubs":1})
 
 
 def getCategoryPosts(request, cat_id):
     subcat = sub(request)
     get_category = Categories.objects.get(id=cat_id)
-    context = {'allCategories':Categories.objects.all,'allPosts':Posts.objects.filter(	post_cat_id=get_category.id).order_by('-post_date'),"subcat": subcat}
+    context = {'allCategories':Categories.objects.all,"subcat": subcat,'allPosts':Posts.objects.filter(	post_cat_id=get_category.id).order_by('-post_date'),"locksubs":1}
     return render(request, "hometemp/home.html", context)
 
 
@@ -350,7 +350,7 @@ def homepost(request,hpost_id):
         'likes':likescount,
         'dislikes':dislikescount,
     }
-    return render(request,"hometemp/home_post", {"postid" : hpost_id,  "User" : userid, "Comment": comment,"likes":data,"Post_details":Posts.objects.get(id=hpost_id),'allCategories':Categories.objects.all,"subcat": subcat} )
+    return render(request,"hometemp/home_post", {"postid" : hpost_id,  "User" : userid, "Comment": comment,"likes":data,"Post_details":Posts.objects.get(id=hpost_id),'allCategories':Categories.objects.all,"subcat": subcat,"locksubs":1} )
 
 
 
@@ -527,26 +527,26 @@ def dislike(request,post_ID):
 #         context = {"form": form}
 #     return render(request, 'adminPanel/add_comments.html', context)
 
-@login_required
-def addComment(request, post_id):
-    form = CommentForm()
-
-    comment_post = Posts.objects.get(id = post_id)
-    # return HttpResponse(comment_post_id)
-    # user_id = request.user.id
-    if request.method == "POST":
-        comment = CommentForm(request.POST)
-        if comment.is_valid():
-            comment = comment.save(commit=False)
-            comment.comment_post_id = comment_post
-            # comment.id = user_id
-            comment.checkForbidden()
-            comment.save()
-            return redirect('/blogersite/homepost/'+post_id)
-    else:
-        form = CommentForm()
-    context = {"form": form}
-    return render(request, 'adminPanel/add_comments.html', context)
+# @login_required
+# def addComment(request, post_id):
+#     form = CommentForm()
+#
+#     comment_post = Posts.objects.get(id = post_id)
+#     # return HttpResponse(comment_post_id)
+#     # user_id = request.user.id
+#     if request.method == "POST":
+#         comment = CommentForm(request.POST)
+#         if comment.is_valid():
+#             comment = comment.save(commit=False)
+#             comment.comment_post_id = comment_post
+#             # comment.id = user_id
+#             comment.checkForbidden()
+#             comment.save()
+#             return redirect('/blogersite/homepost/'+post_id)
+#     else:
+#         form = CommentForm()
+#     context = {"form": form}
+#     return render(request, 'adminPanel/add_comments.html', context)
 
 @login_required
 def addReply(request, post_id, comment_id):
@@ -585,4 +585,6 @@ def commentAjax(request):
     cont=Comment.objects.latest("comment_date")
     date = cont.comment_date
 
-    return JsonResponse({'date': date})
+    # return JsonResponse({'date': date})
+    # return HttpResponseRedirect('/blogersite/homepost/' + postid)
+    # return redirect(request,"/blogersite/homepost.html/"+postid,{"date":date})

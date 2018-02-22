@@ -24,7 +24,7 @@
         <span class="icon-bar"></span>
       </button>
         {% if user.is_authenticated %}
-       <div  style="color:whitesmoke; font-size: 25px" class=" navbar-text pull-right glyphicon glyphicon"> Welcome {{ request.user.username }}</div>
+       <div  style="color:whitesmoke; font-size: 25px; {% if user.is_superuser %}font-size: 25px; color: orangered  {% endif %}" class=" navbar-text pull-right glyphicon glyphicon"> Welcome {{ request.user.username }}</div>
         {% endif %}
       <img class="rounded-circle"  width="75px"  src="{% static 'images/images.png' %}">
 

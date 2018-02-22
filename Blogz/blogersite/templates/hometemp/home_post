@@ -25,9 +25,9 @@
                             <div class="content-title">
                                 <div class="row">
                                     <div class="col-md-4">
-                <p style="font-size: 18px"> {{ Post_details.post_content|slice:"0:90" }} {{ Post_details.post_content|slice:"91:181" }}
-                {{ Post_details.post_content|slice:"182:272" }} {{ Post_details.post_content|slice:"273:364" }} {{ Post_details.post_content|slice:"364:454" }}</p>
-</div>
+                                        <p style="font-size: 18px"> {{ Post_details.post_content|slice:"0:90" }} {{ Post_details.post_content|slice:"91:181" }}
+                                            {{ Post_details.post_content|slice:"182:272" }} {{ Post_details.post_content|slice:"273:364" }} {{ Post_details.post_content|slice:"364:454" }}</p>
+                                    </div>
 
                                 </div>
                             </div>
@@ -39,57 +39,64 @@
                                 <div class="row">
 
 
-
-                                   <a href="/blogersite/like/{{ Post_details.id }}">     <button class="btn btn-primary  col-6 fa fa-thumbs-up "  type="submit" value="{{ Post_details.id }}" {% if user.is_authenticated == 0 %}  disabled="true" {% endif %} >
-                                         Like  {{ likes.likes }}
-                                   </button></a>
-                                    <a href="/blogersite/dislike/{{ Post_details.id }}">    <button style="background-color: orangered" class="btn btn-primary col-6  fa fa-thumbs-down" user_ID="{{ request.user.id }}"
-                                    {% if user.is_authenticated == 0 %}  disabled="true" {% endif %}            post_ID="{{ Post_details.id }}" > Dislike {{ likes.dislikes }}
-                                    </button></a>
+                                    <a href="/blogersite/like/{{ Post_details.id }}">
+                                        <button class="btn btn-primary  col-6 fa fa-thumbs-up " type="submit"
+                                                value="{{ Post_details.id }}" {% if user.is_authenticated == 0 %}
+                                                disabled="true" {% endif %} >
+                                            Like {{ likes.likes }}
+                                        </button>
+                                    </a>
+                                    <a href="/blogersite/dislike/{{ Post_details.id }}">
+                                        <button style="background-color: orangered"
+                                                class="btn btn-primary col-6  fa fa-thumbs-down"
+                                                user_ID="{{ request.user.id }}"
+                                                {% if user.is_authenticated == 0 %}  disabled="true" {% endif %}
+                                                post_ID="{{ Post_details.id }}"> Dislike {{ likes.dislikes }}
+                                        </button>
+                                    </a>
 
                                 </div>
                             </div>
-{% if user.is_authenticated %}
-                            <div class="pull-left">
+                            {% if user.is_authenticated %}
+                                <div class="pull-left">
 
-                                    <h1 style="font-size: 30px">Comments:</h1>
-                                    <input id="textarea" style="width: 500px; height: 50px" >
+                                <h1 style="font-size: 30px">Comments:</h1>
+                                <input id="textarea" style="width: 500px; height: 50px">
 
-                                    <button style="width: 150px" id="btncomment" value="{{request.user.username}}" class="btn btn-primary pe-7s-angle-right-circle fa fa-comments">  Comment</button>
-{% endif %}
+                                <button style="width: 150px" id="btncomment" value="{{ request.user.username }}"
+                                        class="btn btn-primary pe-7s-angle-right-circle fa fa-comments"> Comment
+                                </button>
+                            {% endif %}
 
 
 
 
-                            <div class="parent">
+                            <div id="parent">
                                 {% for comment in Comment %}
 
-                                <hr>
+                                    <hr>
 
 
-                                <div id="comment_body" class="row">
+                                    <div id="comment_body" class="row">
                                     <div class="col-md-12">
-                                        <strong id="comuser">{{ comment.comment_user_id }}</strong>
-                                        {{ comment.comment_date }}
-                                        <div class="border-comment">
-                                            <p id="combody">{{ comment.comment_body }}</p>
-                                        </div>
-
-
-                                        {% endfor %}
-                                         </div >
+                                    <strong id="comuser">{{ comment.comment_user_id }}</strong>
+                                    {{ comment.comment_date }}
+                                    <div class="border-comment">
+                                        <p class="combody">{{ comment.comment_body }}</p>
                                     </div>
 
+
+                                {% endfor %}
                                 </div>
+                                </div>
+
+                            </div>
 
 
 
 
 
                             </div>
-
-
-
 
 
                         </div>
@@ -99,54 +106,48 @@
             </div>
         </div>
     </section>
-<script src="{% static 'assets/js/jquery-3.1.1.js ' %} "></script>
-<script src="{% static 'assets/js/home.js' %}"></script>
+    <script src="{% static 'assets/js/jquery-3.1.1.js ' %} "></script>
+    <script src="{% static 'assets/js/home.js' %}"></script>
 
-<script>
-                            $(document).ready(function(){
-                                $('#btncomment').on("click" , function(){
-                                 var comment= $('#textarea').val()
-                                 var usname= $("#btncomment").val()
-                                        console.log(usname)
-                                    $.ajax({
-                                        url : '{% url 'comment' %}',
-                                        type:  'POST',
-                                        data : {"comment": comment ,
-                                                "userid": {{User}} ,
-                                                 "postid":{{ postid }}
-                                                  },
-                                        success: function(data){
-                                        var date =data.date
-                                        console.log(date)
-                                        var lastcomm =$('#comment_body div:last').parent()
-
-
-
+    <script>
+        $(document).ready(function () {
+            $('#btncomment').on("click", function () {
+                var comment = $('#textarea').val()
+                var usname = $("#btncomment").val()
+                console.log(usname)
+                $.ajax({
+                    url: '{% url 'comment' %}',
+                    type: 'POST',
+                    data: {
+                        "comment": comment,
+                        "userid": {{User}},
+                        "postid":{{ postid }}
+                    },
+                    success: function (data) {
+                        var date = data.date
+                        console.log(date)
+                        var lastcomm = $('#comment_body div:last').parent()
 
 
-                                        <!--$("#combody").append(comment)-->
-                                        <!--$("#comuser").html(usname)-->
-
-                                        <!--n=$("<strong>").html(usname)-->
-                                        <!--b=$("<p>").html(combody)-->
-                                        <!--s=$("<span>").html("time")-->
-                                        <!--k=$("<br>").html()-->
-                                        <!--$("#comment_body").prepend(n)-->
-                                        <!--$("#comment_body").prepend(s)-->
-                                        <!--$("#comment_body").prepend(b)-->
+                        $("#parent").prepend(comment_func(comment, date, usname));
 
 
-                                        },
-                                        error : function(){
+                    },
+                    error: function () {
+                            console.log("error")
+                    },
+                });
 
-                                        },
-                                    });
+            });
 
-                                });
+            function comment_func(comment, date, username) {
+                console.log(comment + date + username)
+                return $(' <div class="comment_body" class="row"><hr> <div class="col-md-12"> <strong class="comuser">' + username  + ' </strong>' + date + '<div class="border-comment"> <p class="combody"> ' + comment + '</p> </div>');
+            }
 
-                            });
+        });
 
 
-                        </script>
+    </script>
 
 {% endblock %}

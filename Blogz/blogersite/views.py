@@ -13,8 +13,6 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 
-
-
 def home(request):
     subcat = sub(request)
     post_list = Posts.objects.all().order_by('-post_date')
@@ -35,66 +33,91 @@ def home(request):
 #######################################
 @login_required
 def all_users(request):
-    all_usr = User.objects.all()
-    return render(request, "adminPanel/all_users.html", {"all_usrs": all_usr})
+    if request.user.is_superuser:
+        all_usr = User.objects.all()
+        return render(request, "adminPanel/all_users.html", {"all_usrs": all_usr})
+    else:
+        return render(request, "hometemp/notallowed")
 
 # @login_required(login_url='adminPanel/login_form')
-@login_required
+# @login_required
 def admin(request):
-    return render(request, "adminPanel/Dashboard.html")
+    if request.user.is_superuser:
+        return render(request, "adminPanel/Dashboard.html")
+    else:
+        return render(request,"hometemp/notallowed")
 @login_required
 def block(request, usr_id):
-    us = User.objects.get(id=usr_id)
-    us.is_active = 0
-    us.save()
-    all_usr = User.objects.all()
-    return render(request, "adminPanel/all_users.html", {"all_usrs": all_usr})
+    if request.user.is_superuser:
+        us = User.objects.get(id=usr_id)
+        us.is_active = 0
+        us.save()
+        all_usr = User.objects.all()
+        return render(request, "adminPanel/all_users.html", {"all_usrs": all_usr})
+    else:
+        return render(request,"hometemp/notallowed")
 
 @login_required
 def unblock(request, usr_id):
-    us = User.objects.get(id=usr_id)
-    us.is_active = 1
-    us.save()
-    all_usr = User.objects.all()
-    return render(request, "adminPanel/all_users.html", {"all_usrs": all_usr})
+    if request.user.is_superuser:
+        us = User.objects.get(id=usr_id)
+        us.is_active = 1
+        us.save()
+        all_usr = User.objects.all()
+        return render(request, "adminPanel/all_users.html", {"all_usrs": all_usr})
+    else:
+        return render(request,"hometemp/notallowed")
 
 @login_required
 def update(request, usr_id):
-    usr = User.objects.get(id=usr_id)
-    usr_form = RegUserForm(instance=usr)
-    if request.method == "POST":
-        usr_form = RegUserForm(request.POST, instance=usr)
-        if usr_form.is_valid():
-            usr_form.save()
-            return HttpResponseRedirect("/blogersite/allusers/")
+    if request.user.is_superuser:
+        usr = User.objects.get(id=usr_id)
+        usr_form = RegUserForm(instance=usr)
+        if request.method == "POST":
+            usr_form = RegUserForm(request.POST, instance=usr)
+            if usr_form.is_valid():
+                usr_form.save()
+                return HttpResponseRedirect("/blogersite/allusers/")
 
-    return render(request, "adminPanel/new.html", {"form": usr_form})
+        return render(request, "adminPanel/new.html", {"form": usr_form})
+    else:
+        return render(request, "hometemp/notallowed")
 
 @login_required
 def delete(request, usr_id):
-    us = User.objects.get(id=usr_id)
-    us.delete()
+    if request.user.is_superuser:
+        us = User.objects.get(id=usr_id)
+        us.delete()
+        all_usr = User.objects.all()
+        return render(request, "adminPanel/all_users.html", {"all_usrs": all_usr})
+    else:
+        return render(request, "hometemp/notallowed")
 
-    all_usr = User.objects.all()
-    return render(request, "adminPanel/all_users.html", {"all_usrs": all_usr})
 
 @login_required
 def promote(request, usr_id):
-    us = User.objects.get(id=usr_id)
-    us.is_superuser = 1
-    us.save()
-    all_usr = User.objects.all()
-    return render(request, "adminPanel/all_users.html", {"all_usrs": all_usr})
+    if request.user.is_superuser:
+        us = User.objects.get(id=usr_id)
+        us.is_superuser = 1
+        us.save()
+        all_usr = User.objects.all()
+        return render(request, "adminPanel/all_users.html", {"all_usrs": all_usr})
+    else:
+        return render(request, "hometemp/notallowed")
+
 
 @login_required
 def addnew(request):
-    usr_form = RegUserForm()
-    if request.method == "POST":
-        usr_form = RegUserForm(request.POST)
-        if usr_form.is_valid():
-            usr_form.save()
-            return HttpResponseRedirect("/blogersite/allusers/")
-    return render(request, "adminPanel/new.html", {"form": usr_form})
+    if request.user.is_superuser:
+        usr_form = RegUserForm()
+        if request.method == "POST":
+            usr_form = RegUserForm(request.POST)
+            if usr_form.is_valid():
+                usr_form.save()
+                return HttpResponseRedirect("/blogersite/allusers/")
+        return render(request, "adminPanel/new.html", {"form": usr_form})
+    else:
+        return render(request, "hometemp/notallowed")
 
 
 def register(request):
@@ -350,8 +373,10 @@ def homepost(request,hpost_id):
         'likes':likescount,
         'dislikes':dislikescount,
     }
-    return render(request,"hometemp/home_post", {"postid" : hpost_id,  "User" : userid, "Comment": comment,"likes":data,"Post_details":Posts.objects.get(id=hpost_id),'allCategories':Categories.objects.all,"subcat": subcat,"locksubs":1} )
-
+    try:
+        return render(request,"hometemp/home_post", {"postid" : hpost_id,  "User" : userid, "Comment": comment,"likes":data,"Post_details":Posts.objects.get(id=hpost_id),'allCategories':Categories.objects.all,"subcat": subcat,"locksubs":1} )
+    except Exception:
+        return HttpResponseRedirect("/blogersite/home")
 
 
 
@@ -421,6 +446,10 @@ def like(request,post_ID):
 
 @login_required
 def dislike(request,post_ID):
+    dislikers = Userslike.objects.filter(state=0, like_post_id_id=post_ID).count()
+    if dislikers >= 9:
+        Posts.objects.get(id=post_ID).delete()
+        return HttpResponseRedirect("/blogersite/home")
     try:
         dischecker=Userslike.objects.get(like_post_id_id=post_ID,like_user_id_id=request.user.id)
     except Exception:
@@ -429,10 +458,7 @@ def dislike(request,post_ID):
         data = {'dislikes': dislikes }
         return render(request, "hometemp/home_post", {"likes": data, "Post_details": Posts.objects.get(id=post_ID),
                                                       'allCategories': Categories.objects.all})
-    dislikers = Userslike.objects.filter(state=0, like_post_id_id=post_ID).count()
-    if dislikers == 10:
-        Posts.objects.get(id=post_ID).delete()
-        return HttpResponseRedirect("/blogersite/home")
+
 
     dischecker = Userslike.objects.get(like_post_id_id=post_ID, like_user_id_id=request.user.id)
     if dischecker.state == 0:
@@ -584,7 +610,8 @@ def commentAjax(request):
 
     cont=Comment.objects.latest("comment_date")
     date = cont.comment_date
+    # date =newcomm.comment_date
 
-    # return JsonResponse({'date': date})
+    return JsonResponse({'date': date})
     # return HttpResponseRedirect('/blogersite/homepost/' + postid)
     # return redirect(request,"/blogersite/homepost.html/"+postid,{"date":date})

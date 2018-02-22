@@ -35,6 +35,10 @@
                         <!-- TABS CONTENT LOGIN -->
                         <div id="login-tab-content" class="active">
                             <form class="login-form" action="" method="post"> {% csrf_token %}
+                            {% if openreg == 1 %}
+                                    <div style="color:red; font-size:30px"> Invalid Username OR Password
+                                    </div>
+                                {% endif %}
                                 <input name="username" type="text" class="input" id="user_login" autocomplete="off"
                                        placeholder="Username">
                                 <input name="password" type="password" class="input" id="user_pass" autocomplete="off"

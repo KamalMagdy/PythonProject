@@ -82,7 +82,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'blogs',
         'USER': 'root',
-        'PASSWORD': 'Mino1994',
+        'PASSWORD': '',
     }
 }
 
@@ -114,5 +114,5 @@ LOGOUT_REDIRECT_URL = '/blogersite/login_form/'
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'blogersiteH@gmail.com'
-EMAIL_HOST_PASSWORD = 'bloger12345'
+EMAIL_HOST_PASSWORD = ''
 EMAIL_PORT = 587
